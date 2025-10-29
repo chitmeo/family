@@ -1,0 +1,17 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/src/">
+    <Project Path="src/Dev.WebHost/Dev.WebHost.csproj" />
+    <Project Path="src/dev/Dev.csproj" />
+  </Folder>
+  <Folder Name="/src/modules/">
+    <Project Path="src/modules/Dev.Module.Accounting/Dev.Module.Accounting.csproj" />
+    <Project Path="src/modules/Dev.Module.Auth/Dev.Module.Auth.csproj" />
+    <Project Path="src/modules/Dev.Module.Bible/Dev.Module.Bible.csproj" Id="a51befbf-13cc-4920-9a7b-b818f6a8cd18" />
+    <Project Path="src/modules/Dev.Module.HomeLover/Dev.Module.HomeLover.csproj" Id="85a83613-86f8-4d86-bf1c-d790b06e7da3" />
+  </Folder>
+</Solution>

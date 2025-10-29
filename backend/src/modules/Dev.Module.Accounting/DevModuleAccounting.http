@@ -1,0 +1,47 @@
+@HostAddress = https://localhost:5001/accg
+@timeout = 600000
+
+### Script
+GET {{HostAddress}}/home
+Accept: application/json
+
+### Create Chart of Account
+POST {{HostAddress}}/chartofaccount
+Content-Type: application/json
+Accept: application/json
+
+{
+  "Code": "personal",
+  "Name": "Kyle COA",
+  "IsActive" : true,
+  "DisplayOrder": 2
+}
+
+### 🧾 Get all Chart of Accounts (only active)
+GET {{HostAddress}}/chartofaccount/getall
+Accept: application/json
+
+### 🧾 Get all Chart of Accounts (include inactive)
+GET {{HostAddress}}/chartofaccount/getall?showHidden=true
+Accept: application/json
+
+### Create Account
+POST {{HostAddress}}/account
+Content-Type: application/json
+Accept: application/json
+
+{
+  "ChartOfAccountId": "ab4a3724-8b1c-4fa9-ada0-462c7c132cbf",
+  "Code": "111",
+  "Name": "Cash",
+  "AccountType": "cash",
+  "IsActive" : true
+}
+
+### Get all active Accounts by Chart of Account Id
+GET {{HostAddress}}/account/GetAll?ChartOfAccountId=ab4a3724-8b1c-4fa9-ada0-462c7c132cbf
+Accept: application/json
+
+### Get all Accounts by Chart of Account Id
+GET {{HostAddress}}/account/GetAll?ChartOfAccountId=ab4a3724-8b1c-4fa9-ada0-462c7c132cbf&ShowHidden=true
+Accept: application/json

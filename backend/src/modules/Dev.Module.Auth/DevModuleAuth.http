@@ -1,0 +1,63 @@
+@HostAddress = https://localhost:5001/auth
+@timeout = 600000
+
+### Script
+GET {{HostAddress}}/home
+Accept: application/json
+
+### Auth register
+POST {{HostAddress}}/auth/register
+Content-Type: application/json
+Accept: application/json
+{
+  "userName": "localadmin",
+  "password": "strongpass"
+}
+
+### Auth login
+POST {{HostAddress}}/auth/login
+Content-Type: application/json
+Accept: application/json
+{
+  "userName": "localadmin",
+  "password": "strongpass"
+}
+
+
+### Auth refresh
+POST {{HostAddress}}/auth/refresh
+Content-Type: application/json
+Accept: application/json
+{
+  "accessToken": "test",
+  "refreshToken": "4gc4l6w4uDObDttniOsfA4pqWHi4dajwLn4wHZCPiKg="
+}
+
+### User get
+GET {{HostAddress}}/user/getuser
+Accept: application/json
+
+
+
+### Create Role
+POST {{HostAddress}}/role
+Content-Type: application/json
+Accept: application/json
+{
+  "Name": "User",
+  "IsSystemRole": true,
+  "SystemName" : "Users",
+  "Active": true
+}
+
+### Get Roles
+GET {{HostAddress}}/role
+Accept: application/json
+
+### Get Role by system name
+GET {{HostAddress}}/role/Users
+Accept: application/json
+
+### Delete Role by Id
+DELETE {{HostAddress}}/role/e1998149-699e-45a1-a458-e6cb153ba73f
+Accept: application/json
