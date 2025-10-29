@@ -9,8 +9,9 @@ Accept: application/json
 POST {{HostAddress}}/auth/register
 Content-Type: application/json
 Accept: application/json
+
 {
-  "userName": "localadmin",
+  "userName": "admin@local.com",
   "password": "strongpass"
 }
 
@@ -18,8 +19,9 @@ Accept: application/json
 POST {{HostAddress}}/auth/login
 Content-Type: application/json
 Accept: application/json
+
 {
-  "userName": "localadmin",
+  "userName": "admin@local.com",
   "password": "strongpass"
 }
 
@@ -28,6 +30,7 @@ Accept: application/json
 POST {{HostAddress}}/auth/refresh
 Content-Type: application/json
 Accept: application/json
+
 {
   "accessToken": "test",
   "refreshToken": "4gc4l6w4uDObDttniOsfA4pqWHi4dajwLn4wHZCPiKg="
@@ -43,6 +46,7 @@ Accept: application/json
 POST {{HostAddress}}/role
 Content-Type: application/json
 Accept: application/json
+
 {
   "Name": "User",
   "IsSystemRole": true,
