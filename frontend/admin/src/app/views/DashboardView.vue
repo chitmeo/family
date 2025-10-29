@@ -1,4 +1,6 @@
 <template>
-    <h1>Welcome to the Dashboard</h1>
-    <h3> Dashboard View sample</h3>
+  <h3>Dashboard View</h3>
 </template>
+<script setup lang="ts">
+
+</script>
