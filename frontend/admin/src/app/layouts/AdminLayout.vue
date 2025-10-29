@@ -3,14 +3,14 @@
     <nav>
       <ul>
         <li><router-link to="/">Home</router-link></li>
-        <li><router-link to="/about">About</router-link></li>
-        <li>
+        <li><router-link to="/accounting/chartofaccount">Chart of Account</router-link></li>
+        <!-- <li>
           <span>Quản lý</span>
           <ul>
             <li><router-link to="/home">Home</router-link></li>
             <li><router-link to="/about">About</router-link></li>
           </ul>
-        </li>
+        </li> -->
         <li>
           <button @click="handleLogout" class="logout-btn">Logout</button>
         </li>
