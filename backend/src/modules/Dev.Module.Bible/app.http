@@ -1,0 +1,6 @@
+@HostAddress = https://localhost:5001/bible
+@timeout = 600000
+
+### Script
+GET {{HostAddress}}/home
+Accept: application/json

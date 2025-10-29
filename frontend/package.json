@@ -1,0 +1,9 @@
+{
+  "name": "chitmeo-family",
+  "private": true,
+  "workspaces": [
+    "frontend/admin",
+    "frontend/user",
+    "frontend/shared"
+  ]
+}
