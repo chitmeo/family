@@ -1,23 +1,23 @@
 <script setup lang="ts">
-
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useChartOfAccount } from '@/modules/accounting/composables/useChartOfAccount';
-
-const { search, selectAccount, list, activeTab } = useChartOfAccount();
+import type { ChartOfAccount } from '@/modules/accounting/types/ChartOfAccount';
+const { searchCOA, selectAccount, list, activeTab } = useChartOfAccount();
 
 const searchTerm = ref('')
 const showHidden = ref(true);
 
 onMounted(() => {
-    search(searchTerm.value, showHidden.value);
+    searchCOA(searchTerm.value, showHidden.value);
 });
 
-function handleClick(item: any) {
+function handleClick(item: ChartOfAccount) {
     selectAccount(item)
     activeTab.value = 'info'
 }
+
 function handleSearch() {
-    search(searchTerm.value, showHidden.value);
+    searchCOA(searchTerm.value, showHidden.value);
 }
 
 </script>
@@ -47,7 +47,7 @@ function handleSearch() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="item in list" :key="item.id">                        
+                    <tr v-for="item in list" :key="item.id">
                         <td>
                             <a href="#" @click.prevent="handleClick(item)">
                                 {{ item.code }}

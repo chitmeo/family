@@ -21,6 +21,25 @@ public partial class ChartOfAccountController : BaseController
         return StatusCode(StatusCodes.Status201Created, new { id = newId });
     }
 
+
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> UpdateAsync(
+        [FromRoute] Guid id,
+        [FromBody] UpdateChartOfAccount.Command command,
+        CancellationToken cancellationToken)
+    {
+        if (id != command.Id)
+        {
+            return BadRequest("Mismatched Chart of Account ID");
+        }
+
+        await _mediator.SendAsync(command, cancellationToken);
+        return NoContent();
+    }
+
     [HttpGet("search")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

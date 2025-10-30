@@ -1,33 +1,11 @@
-<template>
-  <div class="admin-layout">
-    <nav>
-      <ul>
-        <li><router-link to="/">Home</router-link></li>
-        <li><router-link to="/accounting/chartofaccount">Chart of Account</router-link></li>
-        <!-- <li>
-          <span>Quản lý</span>
-          <ul>
-            <li><router-link to="/home">Home</router-link></li>
-            <li><router-link to="/about">About</router-link></li>
-          </ul>
-        </li> -->
-        <li>
-          <button @click="handleLogout" class="logout-btn">Logout</button>
-        </li>
-      </ul>
-    </nav>
-    <main>
-      <router-view />
-    </main>
-  </div>
-</template>
-
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useAuthStore } from '@/app/stores/auth';
 import { useRouter } from 'vue-router';
 
 const auth = useAuthStore();
 const router = useRouter();
+const isActive = ref(false);
 
 async function handleLogout() {
   try {
@@ -39,26 +17,58 @@ async function handleLogout() {
 }
 </script>
 
-<style scoped>
-nav {
-  background: #333;
-  color: #fff;
-  padding: 10px;
-}
+<template>
+  <div class="admin-layout">
+    <!-- Bulma Navbar -->
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+      <div class="navbar-brand">
+        <router-link class="navbar-item" to="/">
+          <strong>MyApp</strong>
+        </router-link>
 
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 20px;
-}
+        <!-- Nút toggle cho mobile -->
+        <a role="button" class="navbar-burger" :class="{ 'is-active': isActive }" aria-label="menu"
+          aria-expanded="false" @click="isActive = !isActive">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
 
-nav ul ul {
-  display: none;
-  position: absolute;
-  background: #444;
-}
+      <div class="navbar-menu" :class="{ 'is-active': isActive }">
+        <div class="navbar-start">
+          <router-link class="navbar-item" to="/">Home</router-link>
 
-nav li:hover > ul {
-  display: block;
-}
-</style>
+          <!-- Dropdown Accounting -->
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">Accounting</a>
+
+            <div class="navbar-dropdown">
+              <router-link class="navbar-item" to="/accounting/chartofaccount">
+                Chart of Account
+              </router-link>
+            </div>
+          </div>
+        </div>
+
+        <div class="navbar-end">
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">{{ auth.user?.username || 'User' }}</a>
+            <div class="navbar-dropdown is-right">
+              <router-link class="navbar-item" to="/profile">Profile</router-link>
+              <router-link class="navbar-item" to="/settings">Settings</router-link>
+              <hr class="navbar-divider" />
+              <a href="#" class="navbar-item has-text-danger" @click.prevent="handleLogout">
+                Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="section">
+      <router-view />
+    </main>
+  </div>
+</template>
