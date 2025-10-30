@@ -47,6 +47,15 @@ async function handleLogout() {
               <router-link class="navbar-item" to="/accounting/chartofaccount">
                 Chart of Account
               </router-link>
+              <router-link class="navbar-item" to="/accounting/generalledger">
+                General Ledger
+              </router-link>
+              <router-link class="navbar-item" to="/accounting/journalentry">
+                Journal Entry
+              </router-link>              
+              <router-link class="navbar-item" to="/accounting/trialbalance">
+                Trial Balance
+              </router-link>
             </div>
           </div>
         </div>

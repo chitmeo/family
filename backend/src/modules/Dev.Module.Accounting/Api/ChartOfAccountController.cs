@@ -31,11 +31,9 @@ public partial class ChartOfAccountController : BaseController
         [FromBody] UpdateChartOfAccount.Command command,
         CancellationToken cancellationToken)
     {
-        if (id != command.Id)
-        {
-            return BadRequest("Mismatched Chart of Account ID");
-        }
-
+        if (command == null)
+            return BadRequest("Invalid request body.");
+        command.Id = id;
         await _mediator.SendAsync(command, cancellationToken);
         return NoContent();
     }

@@ -60,7 +60,6 @@ public static class CreateChartOfAccount
 
             if (isDuplicate)
             {
-
                 throw new InvalidOperationException($"Chart of Account with code '{request.Code}' already exists.");
             }
         }
