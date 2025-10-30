@@ -31,8 +31,7 @@ public class AccountController : BaseController
         [FromRoute] Guid coaId,        
         [FromQuery] GetAccountByChartOfAccountId.Query query,
         CancellationToken cancellationToken)
-    {
-        query.ChartOfAccountId = coaId;
+    {        
         var items = await _mediator.SendAsync(query, cancellationToken);
         return Ok(items);
     }
