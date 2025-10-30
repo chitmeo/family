@@ -23,14 +23,16 @@ public class AccountController : BaseController
         return StatusCode(StatusCodes.Status201Created, new { id = newId });
     }
 
-    [HttpGet("GetAll")]
+    [HttpGet("{coaid:guid}/accounts")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetAllAsync(
+    public async Task<IActionResult> GetByChartOfAccountIdAsync(
+        [FromRoute] Guid coaId,        
         [FromQuery] GetAccountByChartOfAccountId.Query query,
         CancellationToken cancellationToken)
     {
+        query.ChartOfAccountId = coaId;
         var items = await _mediator.SendAsync(query, cancellationToken);
         return Ok(items);
     }
