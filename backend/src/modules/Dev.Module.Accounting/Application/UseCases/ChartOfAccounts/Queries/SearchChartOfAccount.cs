@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dev.Module.Accounting.Application.UseCases.ChartOfAccounts.Queries;
 
-public static class GetAllChartOfAccounts
+public static class SearchChartOfAccount
 {
-    public sealed record Query(bool ShowHidden = false) : IRequest<List<Result>>;
+    public sealed record Query(string SearchTerm = "", bool ShowHidden = false) : IRequest<List<Result>>;
     public sealed record Result(
         Guid Id,
         string Code,
@@ -30,6 +30,14 @@ public static class GetAllChartOfAccounts
             if (!request.ShowHidden)
             {
                 query = query.Where(x => x.IsActive);
+            }
+            if (!string.IsNullOrWhiteSpace(request.SearchTerm))
+            {
+                var searchTerm = request.SearchTerm.Trim().ToLower();
+                query = query.Where(x =>
+                    x.Code.ToLower().Contains(searchTerm) ||
+                    x.Name.ToLower().Contains(searchTerm)
+                );
             }
             var items = await query
                .OrderBy(x => x.DisplayOrder)

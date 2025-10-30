@@ -4,10 +4,9 @@ import { ref } from 'vue'
 import ChartOfAccountInfoTab from '@/modules/accounting/ui/components/ChartOfAccountInfoTab.vue'
 import ChartOfAccountAccountsTab from '@/modules/accounting/ui/components/ChartOfAccountAccountsTab.vue'
 import ChartOfAccountFindTab from '@/modules/accounting/ui/components/ChartOfAccountFindTab.vue'
+import { useChartOfAccount } from '@/modules/accounting/composables/useChartOfAccount'
 
-// Current active tab
-const activeTab = ref<'info' | 'accounts' | 'find'>('info')
-
+const { activeTab } = useChartOfAccount()
 // Tab click handler
 function selectTab(tab: 'info' | 'accounts' | 'find') {
   activeTab.value = tab

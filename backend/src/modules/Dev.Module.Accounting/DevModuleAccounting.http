@@ -22,7 +22,7 @@ GET {{HostAddress}}/chartofaccount/getall
 Accept: application/json
 
 ### 🧾 Get all Chart of Accounts (include inactive)
-GET {{HostAddress}}/chartofaccount/getall?showHidden=true
+GET {{HostAddress}}/chartofaccount/search?searchTerm=COA&showHidden=true
 Accept: application/json
 
 ### Create Account

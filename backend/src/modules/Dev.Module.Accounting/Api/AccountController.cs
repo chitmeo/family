@@ -10,7 +10,11 @@ namespace Dev.Module.Accounting.Api;
 public class AccountController : BaseController
 {
     public AccountController(IMediator mediator) : base(mediator) { }
+
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreateAsync(
         [FromBody] CreateAccount.Command command,
         CancellationToken cancellationToken)
@@ -20,6 +24,9 @@ public class AccountController : BaseController
     }
 
     [HttpGet("GetAll")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetAllAsync(
         [FromQuery] GetAccountByChartOfAccountId.Query query,
         CancellationToken cancellationToken)
