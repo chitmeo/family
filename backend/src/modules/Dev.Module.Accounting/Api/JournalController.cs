@@ -16,7 +16,7 @@ public class JournalController : BaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-    public async Task<IActionResult> CreateAsync(CreateJournal.Command command, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateAsync([FromBody] CreateJournal.Command command, CancellationToken cancellationToken)
     {
         Guid newId = await _mediator.SendAsync(command, cancellationToken);
         return StatusCode(StatusCodes.Status201Created, new { id = newId });
@@ -27,7 +27,7 @@ public class JournalController : BaseController
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> UpdateAsync(Guid id, UpdateJournal.Command command, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateJournal.Command command, CancellationToken cancellationToken)
     {
         if (id != command.Id)
         {
@@ -42,7 +42,7 @@ public class JournalController : BaseController
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> DeleteAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> DeleteAsync([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var command = new DeleteJournal.Command { Id = id };
         await _mediator.SendAsync(command, cancellationToken);
@@ -53,7 +53,7 @@ public class JournalController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetByChartOfAccountIdAsync(Guid chartOfAccountId, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetByChartOfAccountIdAsync([FromRoute] Guid chartOfAccountId, CancellationToken cancellationToken)
     {
         var query = new GetJournalByChartOfAccountId.Query { ChartOfAccountId = chartOfAccountId };
         var journal = await _mediator.SendAsync(query, cancellationToken);
