@@ -22,7 +22,7 @@ async function searchCOA(searchTerm: string, showHidden: boolean) {
         })
         listChartOfAccounts.value = res.data
     } catch (err: any) {
-        error.value = err.message || 'Failed to fetch accounts'
+        error.value = api.extractApiError(err)
     } finally {
         loading.value = false
     }
@@ -34,8 +34,7 @@ async function createCOA(payload: ChartOfAccount) {
     try {
         await api.privateApi.post('/accg/chartofaccount', payload);
     } catch (err: any) {
-        console.error(err);
-        error.value = err.message || 'Failed to create chart of account';
+        error.value = api.extractApiError(err)
     } finally {
         loading.value = false;
     }
@@ -48,25 +47,7 @@ async function updateCOA(coa: ChartOfAccount) {
     try {
         await api.privateApi.put(`/accg/chartofaccount/${coa.id}`, coa);
     } catch (err: any) {
-        if (err.response && err.response.data) {
-            const data = err.response.data
-
-            if (data.errors && typeof data.errors === 'object') {
-                const messages = Object.entries(data.errors)
-                    .map(([field, msgs]) => `${field}: ${(msgs as string[]).join(', ')}`)
-                    .join('\n')
-                error.value = messages
-            }
-            else if (data.title || data.detail) {
-                error.value = data.detail || data.title
-            }
-            else {
-                error.value = 'Validation failed'
-            }
-        }
-        else {
-            error.value = err.message || 'Failed to update chart of account'
-        }
+        error.value = api.extractApiError(err)
     } finally {
         loading.value = false;
     }
@@ -81,7 +62,7 @@ async function getAccounts(chartOfAccountId: string): Promise<Account[]> {
         })
         return res.data
     } catch (err: any) {
-        error.value = err.message || 'Failed to fetch accounts'
+        error.value = api.extractApiError(err)
         return [];
     } finally {
         loading.value = false

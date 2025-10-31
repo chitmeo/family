@@ -41,8 +41,7 @@ async function createAccount(payload: Account) {
   try {
     await api.privateApi.post(`/accg/account`, payload);
   } catch (err: any) {
-    console.error(err);
-    error.value = err.message || 'Failed to create account';
+    error.value = api.extractApiError(err)
   } finally {
     loading.value = false;
   }
@@ -54,8 +53,7 @@ async function updateAccount(account: Account) {
   try {
     await api.privateApi.put(`/accg/account/${account.id}`, account);
   } catch (err: any) {
-    console.error(err);
-    error.value = err.message || 'Failed to update account';
+    error.value = api.extractApiError(err)
   } finally {
     loading.value = false;
   }
@@ -70,7 +68,7 @@ async function getAccounts(chartOfAccountId: string) {
     })
     listAccount.value = res.data
   } catch (err: any) {
-    error.value = err.message || 'Failed to fetch accounts'
+    error.value = api.extractApiError(err)
   } finally {
     loading.value = false
   }

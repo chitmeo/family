@@ -16,7 +16,7 @@ public class JournalConfig : IEntityTypeConfiguration<Journal>
         builder.Property(x => x.Code).HasMaxLength(20);
         builder.Property(x => x.Name).HasMaxLength(100);
         builder.Property(x => x.Type).HasMaxLength(10);
-
+        builder.Property(x => x.Description).HasMaxLength(255);
 
         builder.HasOne(pk => pk.DefaultDebitAccount)
                .WithMany(pk => pk.DebitJournals)

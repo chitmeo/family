@@ -18,6 +18,7 @@ public class Journal
     public Account DefaultDebitAccount { get; set; } = default!;
     public Guid DefaultCreditAccountId { get; set; }
     public Account DefaultCreditAccount { get; set; } = default!;
+    public string Description { get; set; } = string.Empty;
     public bool IsActive { get; set; } = true;
     public ICollection<JournalEntry> JournalEntries { get; set; } = new List<JournalEntry>();
 }
