@@ -17,12 +17,21 @@ Accept: application/json
   "DisplayOrder": 2
 }
 
-### 🧾 Get all Chart of Accounts (only active)
-GET {{HostAddress}}/chartofaccount/getall
+### Update Chart of Account
+PUT {{HostAddress}}/chartofaccount/1dd4e245-8ffd-45d3-826c-a89e869c791e
+Content-Type: application/json
 Accept: application/json
 
-### 🧾 Get all Chart of Accounts (include inactive)
-GET {{HostAddress}}/chartofaccount/getall?showHidden=true
+{
+  "Id": "1dd4e245-8ffd-45d3-826c-a89e869c791e",
+  "Code": "personal",   
+  "Name": "Kyle COA Updated",
+  "IsActive": true,
+  "DisplayOrder": 3
+}
+
+### Search active Chart of Accounts
+GET {{HostAddress}}/chartofaccount/search?searchTerm=COA&showHidden=true
 Accept: application/json
 
 ### Create Account

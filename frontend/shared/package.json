@@ -2,5 +2,8 @@
   "name": "@chitmeo/shared",
   "version": "1.0.0",
   "main": "src/index.ts",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "axios": "^1.13.1"
+  }
 }
