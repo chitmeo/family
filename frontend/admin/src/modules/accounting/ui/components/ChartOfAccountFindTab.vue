@@ -1,23 +1,28 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useChartOfAccount } from '@/modules/accounting/composables/useChartOfAccount';
 import type { ChartOfAccount } from '@/modules/accounting/types/ChartOfAccount';
-const { searchCOA, selectAccount, list, activeTab } = useChartOfAccount();
+
+const { searchCOA, setChartOfAccount, listChartOfAccounts, activeTab } = useChartOfAccount();
 
 const searchTerm = ref('')
-const showHidden = ref(true);
+const isNew = ref(false)
 
-onMounted(() => {
-    searchCOA(searchTerm.value, showHidden.value);
-});
+// Form model
+const current = ref<ChartOfAccount>({
+  id: '',
+  code: '',
+  name: '',
+  isActive: true,
+})
 
 function handleClick(item: ChartOfAccount) {
-    selectAccount(item)
+    setChartOfAccount(item)
     activeTab.value = 'info'
 }
 
 function handleSearch() {
-    searchCOA(searchTerm.value, showHidden.value);
+    searchCOA(searchTerm.value, true);
 }
 
 </script>
@@ -38,7 +43,7 @@ function handleSearch() {
             </div>
 
             <!-- Table -->
-            <table class="table is-striped is-fullwidth" v-if="list.length">
+            <table class="table is-striped is-fullwidth" v-if="listChartOfAccounts.length">
                 <thead>
                     <tr>
                         <th>Code</th>
@@ -47,7 +52,7 @@ function handleSearch() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="item in list" :key="item.id">
+                    <tr v-for="item in listChartOfAccounts" :key="item.id">
                         <td>
                             <a href="#" @click.prevent="handleClick(item)">
                                 {{ item.code }}
@@ -62,8 +67,6 @@ function handleSearch() {
                     </tr>
                 </tbody>
             </table>
-
-            <!-- Empty state -->
             <p v-else class="has-text-grey">No data found. Try searching.</p>
         </div>
     </section>

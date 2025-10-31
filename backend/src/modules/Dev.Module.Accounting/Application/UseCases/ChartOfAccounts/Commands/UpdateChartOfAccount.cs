@@ -13,14 +13,18 @@ public static class UpdateChartOfAccount
     {
         public Guid Id { get; set; }
 
+        public Guid? ParentId { get; set; }
+
         [Required(ErrorMessage = "Code is required.")]
-        [MaxLength(10, ErrorMessage = "Code length must not exceed 10 characters.")]
+        [StringLength(10, ErrorMessage = "Code length must not exceed 10 characters.")]
         public string Code { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Name is required.")]
-        [MaxLength(255, ErrorMessage = "Name length must not exceed 255 characters.")]
+        [StringLength(10, ErrorMessage = "Name length must not exceed 255 characters.")]
         public string Name { get; set; } = string.Empty;
+
         public bool IsActive { get; set; } = true;
+
         public int DisplayOrder { get; set; } = 1;
     }
 

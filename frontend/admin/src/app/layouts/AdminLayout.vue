@@ -19,14 +19,12 @@ async function handleLogout() {
 
 <template>
   <div class="admin-layout">
-    <!-- Bulma Navbar -->
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <router-link class="navbar-item" to="/">
-          <strong>MyApp</strong>
+          <strong>Chitmeo</strong>
         </router-link>
-
-        <!-- Nút toggle cho mobile -->
+        <!-- toggle button -->
         <a role="button" class="navbar-burger" :class="{ 'is-active': isActive }" aria-label="menu"
           aria-expanded="false" @click="isActive = !isActive">
           <span aria-hidden="true"></span>
@@ -44,18 +42,15 @@ async function handleLogout() {
             <a class="navbar-link">Accounting</a>
 
             <div class="navbar-dropdown">
-              <router-link class="navbar-item" to="/accounting/chartofaccount">
-                Chart of Account
+              <router-link class="navbar-item" to="/accounting/chartofaccounts">
+                Chart of Accounts
               </router-link>
-              <router-link class="navbar-item" to="/accounting/generalledger">
-                General Ledger
+              <router-link class="navbar-item" to="/accounting/accounts">
+                Accounts
               </router-link>
               <router-link class="navbar-item" to="/accounting/journalentry">
                 Journal Entry
-              </router-link>              
-              <router-link class="navbar-item" to="/accounting/trialbalance">
-                Trial Balance
-              </router-link>
+              </router-link>         
             </div>
           </div>
         </div>

@@ -43,6 +43,7 @@ public static class CreateChartOfAccount
             var chartOfAccount = new ChartOfAccount()
             {
                 Id = Guid.NewGuid(),
+            
                 Code = request.Code,
                 Name = request.Name,
                 IsActive = request.IsActive,

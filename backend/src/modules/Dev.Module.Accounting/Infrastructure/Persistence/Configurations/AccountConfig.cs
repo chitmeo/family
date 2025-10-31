@@ -4,6 +4,8 @@ using Dev.Module.Accounting.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using ZstdSharp.Unsafe;
+
 namespace Dev.Module.Accounting.Infrastructure.Persistence.Configurations;
 
 public class AccountConfig : IEntityTypeConfiguration<Account>
@@ -24,8 +26,8 @@ public class AccountConfig : IEntityTypeConfiguration<Account>
                .HasForeignKey(pk => pk.ChartOfAccountId)
                .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne<Account>()
-               .WithMany()
+        builder.HasOne(a => a.Parent)
+               .WithMany(p => p.Children)
                .HasForeignKey(a => a.ParentId)
                .IsRequired(false)
                .OnDelete(DeleteBehavior.Restrict);    

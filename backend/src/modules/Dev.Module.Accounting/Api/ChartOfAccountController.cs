@@ -1,4 +1,5 @@
 using Dev.Mediator;
+using Dev.Module.Accounting.Application.UseCases.Accounts.Queries;
 using Dev.Module.Accounting.Application.UseCases.ChartOfAccounts.Commands;
 using Dev.Module.Accounting.Application.UseCases.ChartOfAccounts.Queries;
 
@@ -46,6 +47,20 @@ public partial class ChartOfAccountController : BaseController
         [FromQuery] SearchChartOfAccount.Query query,
         CancellationToken cancellationToken)
     {
+        var items = await _mediator.SendAsync(query, cancellationToken);
+        return Ok(items);
+    }
+
+    [HttpGet("{coaid:guid}/accounts")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetByChartOfAccountIdAsync(
+        [FromRoute] Guid coaId,
+        [FromQuery] GetAccountByChartOfAccountId.Query query,
+        CancellationToken cancellationToken)
+    {
+        query = query with { ChartOfAccountId = coaId };
         var items = await _mediator.SendAsync(query, cancellationToken);
         return Ok(items);
     }

@@ -1,5 +1,3 @@
-using System;
-
 using Dev.Mediator;
 using Dev.Module.Accounting.Application.Interfaces.Persistence;
 
@@ -12,6 +10,7 @@ public static class GetAccountByChartOfAccountId
     public sealed record Result(
         Guid Id,
         Guid? ParentId,
+        string? ParentCode,
         string Code,
         string Name,
         string AccountType,
@@ -38,9 +37,11 @@ public static class GetAccountByChartOfAccountId
             }
             var items = await query
                 .Where(x => x.ChartOfAccountId == request.ChartOfAccountId)
+                .OrderBy(x => x.Code)
                 .Select(x => new Result(
                     x.Id,
                     x.ParentId,
+                    x.Parent != null ? x.Parent.Code : null,
                     x.Code,
                     x.Name,
                     x.AccountType,
