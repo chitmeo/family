@@ -2,8 +2,11 @@
 import { computed, ref, watch } from 'vue';
 import { useChartOfAccount } from '@/modules/accounting/composables/useChartOfAccount'
 import type { ChartOfAccount } from '@/modules/accounting/types/ChartOfAccount';
+import { useChartOfAccountStore } from '@/modules/accounting/stores/chartOfAccountStore';
 
 const { currentChartOfAccount, error, loading, setChartOfAccount, createCOA, updateCOA } = useChartOfAccount();
+const coaStore = useChartOfAccountStore();
+
 const hasData = computed(() => !!currentChartOfAccount.value)
 const isNew = ref(false)
 const form = ref<ChartOfAccount>({
@@ -42,6 +45,7 @@ async function handleSave() {
         await updateCOA(form.value)
     }
     setChartOfAccount(form.value)
+    coaStore.clearCache()
     isNew.value = false
 }
 

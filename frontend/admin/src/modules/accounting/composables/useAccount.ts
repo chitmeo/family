@@ -13,28 +13,6 @@ function setAccount(account: Account) {
   currentAccount.value = account
 }
 
-async function getChartOfAccounts(): Promise<types.SelectOption[]> {
-  loading.value = true
-  error.value = null
-  try {
-    const res = await api.privateApi.get<ChartOfAccount[]>('/accg/chartofaccount/search', {
-      params: {
-        searchTerm: '',
-        showHidden: false
-      }
-    })
-    return res.data.map(item => ({
-      value: item.id,
-      text: `${item.code} - ${item.name}`,
-    }));
-  } catch (err: any) {
-    error.value = err.message || 'Failed to fetch accounts'
-    return []
-  } finally {
-    loading.value = false
-  }
-}
-
 async function createAccount(payload: Account) {
   loading.value = true;
   error.value = null;
@@ -84,7 +62,6 @@ export function useAccount() {
     setAccount,
     createAccount,
     updateAccount,
-    getChartOfAccounts,
     getAccounts
   }
 }

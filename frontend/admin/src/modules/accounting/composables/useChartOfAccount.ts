@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { api } from '@chitmeo/shared'
+import { api, types } from '@chitmeo/shared'
 import type { ChartOfAccount } from '@/modules/accounting/types/ChartOfAccount';
 import type { Account } from '@/modules/accounting/types/Account';
 
@@ -9,6 +9,28 @@ const currentChartOfAccount = ref<ChartOfAccount | null>(null)
 const listChartOfAccounts = ref<ChartOfAccount[]>([])
 const loading = ref(false)
 const error = ref<string | null>(null)
+
+async function getChartOfAccounts(): Promise<types.SelectOption[]> {
+  loading.value = true
+  error.value = null
+  try {
+    const res = await api.privateApi.get<ChartOfAccount[]>('/accg/chartofaccount/search', {
+      params: {
+        searchTerm: '',
+        showHidden: false
+      }
+    })
+    return res.data.map(item => ({
+      value: item.id,
+      text: `${item.code} - ${item.name}`,
+    }));
+  } catch (err: any) {
+    error.value = err.message || 'Failed to fetch accounts'
+    return []
+  } finally {
+    loading.value = false
+  }
+}
 
 async function searchCOA(searchTerm: string, showHidden: boolean) {
     loading.value = true

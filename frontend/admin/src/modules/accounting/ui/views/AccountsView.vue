@@ -3,9 +3,10 @@ import { computed, ref, onMounted } from 'vue';
 import { useAccount } from '@/modules/accounting/composables/useAccount';
 import type { types } from '@chitmeo/shared';
 import type { Account } from '@/modules/accounting/types/Account';
+import { useChartOfAccountStore } from '@/modules/accounting/stores/chartOfAccountStore';
 
-const { currentAccount, listAccount, loading, error, getAccounts, getChartOfAccounts, createAccount, updateAccount } = useAccount();
-
+const { currentAccount, listAccount, loading, error, getAccounts, createAccount, updateAccount } = useAccount();
+const coaStore = useChartOfAccountStore();
 const selectedChartOfAccountId = ref<string>('');
 const coaOptions = ref<types.SelectOption[]>([]);
 const hasData = computed(() => listAccount.value.length > 0);
@@ -22,7 +23,7 @@ const form = ref<Partial<Account>>({
 });
 
 onMounted(async () => {
-    coaOptions.value = await getChartOfAccounts();
+    coaOptions.value = await coaStore.fetchOptions();
 });
 
 async function handleChartOfAccountChange() {
