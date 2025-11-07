@@ -4,7 +4,6 @@ import type { ChartOfAccount } from '@/modules/accounting/types/ChartOfAccount';
 import { api, types } from '@chitmeo/shared';
 
 const currentAccount = ref<Account | null>(null)
-const listAccount = ref<Account[]>([])
 
 const loading = ref(false)
 const error = ref<string | null>(null)
@@ -44,7 +43,7 @@ async function getAccounts(chartOfAccountId: string) {
     const res = await api.privateApi.get(`/accg/chartofaccount/${chartOfAccountId}/accounts`, {
       params: { showHidden: true }
     })
-    listAccount.value = res.data
+    return res.data
   } catch (err: any) {
     error.value = api.extractApiError(err)
   } finally {
@@ -56,7 +55,6 @@ async function getAccounts(chartOfAccountId: string) {
 export function useAccount() {
   return {
     currentAccount,
-    listAccount,
     loading,
     error,
     setAccount,

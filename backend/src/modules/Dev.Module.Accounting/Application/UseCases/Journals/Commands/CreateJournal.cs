@@ -4,6 +4,8 @@ using Dev.Helpers;
 using Dev.Mediator;
 using Dev.Module.Accounting.Application.Interfaces.Persistence;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace Dev.Module.Accounting.Application.UseCases.Journals.Commands;
 
 public static class CreateJournal
@@ -48,6 +50,7 @@ public static class CreateJournal
         public async Task<Guid> HandleAsync(Command request, CancellationToken cancellationToken)
         {
             ValidationHelper.ValidateAndThrow(request);
+            await ValidateAndThrow(request);
             var journal = new Domain.Entities.Journal()
             {
                 Id = Guid.NewGuid(),
@@ -63,6 +66,19 @@ public static class CreateJournal
             await _context.Journals.AddAsync(journal);
             await _context.SaveChangesAsync(cancellationToken);
             return journal.Id;
+        }
+
+        private async Task ValidateAndThrow(Command request)
+        {
+            bool isDuplicate = await _context.Journals
+                .AnyAsync(x => x.ChartOfAccountId == request.ChartOfAccountId &&
+                               x.DefaultDebitAccountId == request.DefaultDebitAccountId &&
+                               x.DefaultCreditAccountId == request.DefaultCreditAccountId, CancellationToken.None);
+
+            if (isDuplicate)
+            {
+                throw new InvalidOperationException($"Journal already exists.");
+            }
         }
     }
 }

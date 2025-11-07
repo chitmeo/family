@@ -5,7 +5,7 @@ const accountingRoutes: RouteRecordRaw[] = [
     path: '/accounting',
     children: [
       {
-        path: 'chartofaccounts',        
+        path: 'chartofaccounts',
         name: 'ChartOfAccounts',
         component: () => import('@/modules/accounting/ui/views/ChartOfAccountsView.vue'),
         meta: { title: 'Chart Of Account', requiresAuth: true },
@@ -15,8 +15,13 @@ const accountingRoutes: RouteRecordRaw[] = [
         name: 'Accounts',
         component: () => import('@/modules/accounting/ui/views/AccountsView.vue'),
         meta: { title: 'Accounts', requiresAuth: true },
-      }
-      
+      },
+      {
+        path: 'journals',
+        name: 'Journals',
+        component: () => import('@/modules/accounting/ui/views/JournalsView.vue'),
+        meta: { title: 'Journals', requiresAuth: true }
+      },
     ],
   },
 ]

@@ -5,10 +5,11 @@ import type { types } from '@chitmeo/shared';
 import type { Account } from '@/modules/accounting/types/Account';
 import { useChartOfAccountStore } from '@/modules/accounting/stores/chartOfAccountStore';
 
-const { currentAccount, listAccount, loading, error, getAccounts, createAccount, updateAccount } = useAccount();
+const { currentAccount, loading, error, getAccounts, createAccount, updateAccount } = useAccount();
 const coaStore = useChartOfAccountStore();
 const selectedChartOfAccountId = ref<string>('');
 const coaOptions = ref<types.SelectOption[]>([]);
+const listAccount = ref<Account[]>([])
 const hasData = computed(() => listAccount.value.length > 0);
 
 // Modal & form state
@@ -24,11 +25,15 @@ const form = ref<Partial<Account>>({
 
 onMounted(async () => {
     coaOptions.value = await coaStore.fetchOptions();
+    if (coaOptions.value.length > 0) {
+        selectedChartOfAccountId.value = coaOptions.value[0]?.value.toString() ?? '';
+        listAccount.value = await getAccounts(selectedChartOfAccountId.value);
+    }
 });
 
 async function handleChartOfAccountChange() {
     if (selectedChartOfAccountId.value) {
-        await getAccounts(selectedChartOfAccountId.value);
+        listAccount.value = await getAccounts(selectedChartOfAccountId.value);
         const selected = coaOptions.value.find(
             (opt) => opt.value === selectedChartOfAccountId.value
         );
@@ -39,8 +44,6 @@ async function handleChartOfAccountChange() {
         listAccount.value = [];
     }
 }
-// === Modal form logic ===
-
 // === Parent Account options ===
 const parentOptions = computed<types.SelectOption[]>(() => {
     return listAccount.value
@@ -51,7 +54,7 @@ const parentOptions = computed<types.SelectOption[]>(() => {
             value: a.id,
         }));
 });
-
+// === Modal form logic ===
 function openCreateModal() {
     form.value = { id: '', name: '', accountType: '', isActive: true };
     isEditMode.value = false;
@@ -68,7 +71,6 @@ function closeModal() {
 
 async function handleSubmit() {
     if (!selectedChartOfAccountId.value) return alert('Please select a Chart of Account first.');
-    //if (!form.value.name || !form.value.accountType) return alert('Please fill all required fields.');
     form.value.chartOfAccountId = selectedChartOfAccountId.value;
     try {
         if (isEditMode.value) {
@@ -96,7 +98,6 @@ async function handleSubmit() {
                 <div class="control">
                     <div class="select is-fullwidth">
                         <select v-model="selectedChartOfAccountId" @change="handleChartOfAccountChange">
-                            <option value="">-- Select Chart of Account --</option>
                             <option v-for="item in coaOptions" :key="item.value" :value="item.value">
                                 {{ item.text }}
                             </option>
@@ -121,7 +122,7 @@ async function handleSubmit() {
             <div v-else-if="hasData">
                 <table class="table is-striped is-hoverable is-fullwidth">
                     <thead>
-                        <tr>                            
+                        <tr>
                             <th>Parent Account</th>
                             <th>Account Code</th>
                             <th>Account Name</th>
@@ -131,7 +132,7 @@ async function handleSubmit() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="account in listAccount" :key="account.id">                            
+                        <tr v-for="account in listAccount" :key="account.id">
                             <td>{{ account.parentCode || '--' }}</td>
                             <td>{{ account.code }}</td>
                             <td>{{ account.name }}</td>

@@ -27,7 +27,10 @@ public class JournalController : BaseController
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateJournal.Command command, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateAsync(
+        [FromRoute] Guid id,
+        [FromBody] UpdateJournal.Command command,
+        CancellationToken cancellationToken)
     {
         if (id != command.Id)
         {
@@ -53,9 +56,12 @@ public class JournalController : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> GetByChartOfAccountIdAsync([FromRoute] Guid chartOfAccountId, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetByChartOfAccountIdAsync(
+        [FromRoute] Guid chartOfAccountId,
+        [FromQuery] GetJournalByChartOfAccountId.Query query,
+        CancellationToken cancellationToken)
     {
-        var query = new GetJournalByChartOfAccountId.Query { ChartOfAccountId = chartOfAccountId };
+        query = query with { ChartOfAccountId = chartOfAccountId };
         var journal = await _mediator.SendAsync(query, cancellationToken);
         return Ok(journal);
     }
