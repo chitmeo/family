@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 
 import ChartOfAccountInfoTab from '@/modules/accounting/ui/components/ChartOfAccountInfoTab.vue'
 import ChartOfAccountAccountsTab from '@/modules/accounting/ui/components/ChartOfAccountAccountsTab.vue'
