@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref, onMounted } from 'vue';
-import { useAccount } from '@/modules/accounting/composables/useAccount';
+import { useAccount } from '@/modules/accounting/composables';
 import type { types } from '@chitmeo/shared';
 import type { Account } from '@/modules/accounting/types/Account';
 import { useChartOfAccountStore } from '@/modules/accounting/stores/chartOfAccountStore';

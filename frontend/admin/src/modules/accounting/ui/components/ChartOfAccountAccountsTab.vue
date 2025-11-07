@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
-import { useChartOfAccount } from '../../composables/useChartOfAccount';
+import { useChartOfAccount } from '../../composables';
 import type { Account } from '@/modules/accounting/types/Account';
 
 const listAccounts = ref<Account[]>([])

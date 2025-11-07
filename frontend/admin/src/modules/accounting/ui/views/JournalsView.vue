@@ -3,8 +3,7 @@ import { ref, onMounted, computed } from 'vue';
 import { useChartOfAccountStore } from '@/modules/accounting/stores/chartOfAccountStore';
 import type { Account, Journal } from '@/modules/accounting/types';
 import type { types } from '@chitmeo/shared';
-import { useJournal } from '@/modules/accounting/composables/useJournal';
-import { useAccount } from '@/modules/accounting/composables/useAccount';
+import { useAccount, useJournal } from '@/modules/accounting/composables';
 
 const coaOptions = ref<types.SelectOption[]>([]);
 const { loading: loadingAccount, getAccounts } = useAccount();
