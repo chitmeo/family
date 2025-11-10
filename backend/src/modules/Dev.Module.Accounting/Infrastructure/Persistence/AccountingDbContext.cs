@@ -12,7 +12,7 @@ public class AccountingDbContext : DbContext, IAccountingDbContext
 {
     public DbSet<Account> Accounts => Set<Account>();
     public DbSet<ChartOfAccount> ChartOfAccounts => Set<ChartOfAccount>();
-    public DbSet<Journal> Journals => Set<Journal>();
+    public DbSet<JournalTemplate> JournalTemplates => Set<JournalTemplate>();
     public DbSet<JournalEntry> JournalEntries => Set<JournalEntry>();
     public DbSet<JournalEntryLine> JournalEntryLines => Set<JournalEntryLine>();
 

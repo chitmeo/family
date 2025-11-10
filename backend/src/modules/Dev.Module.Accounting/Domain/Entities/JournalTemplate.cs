@@ -1,6 +1,6 @@
 namespace Dev.Module.Accounting.Domain.Entities;
 
-public class Journal
+public class JournalTemplate
 {
     public Guid Id { get; set; }
     /// <summary>

@@ -17,7 +17,7 @@ public static class GetAccountByChartOfAccountId
         bool IsActive
     );
 
-    public sealed record Query(Guid ChartOfAccountId, bool ShowHidden = false) : IRequest<List<Result>>;
+    public sealed record Query(Guid ChartOfAccountId, bool ShowHidden = false, string ParentCode = "") : IRequest<List<Result>>;
 
     internal sealed class Handler : IRequestHandler<Query, List<Result>>
     {
@@ -35,7 +35,7 @@ public static class GetAccountByChartOfAccountId
             {
                 query = query.Where(x => x.IsActive);
             }
-            var items = await query
+            var allAccounts = await query
                 .Where(x => x.ChartOfAccountId == request.ChartOfAccountId)
                 .OrderBy(x => x.Code)
                 .Select(x => new Result(
@@ -49,7 +49,32 @@ public static class GetAccountByChartOfAccountId
                 ))
                 .ToListAsync(cancellationToken);
 
-            return items;
+            if (request.ParentCode != "")
+            {
+                var parent = allAccounts.FirstOrDefault(x => x.Code == request.ParentCode);
+                if (parent != null)
+                {
+                    var dict = allAccounts.ToLookup(x => x.ParentId);
+                    List<Result> GetChildrenRecursive(Guid parentId)
+                    {
+                        var children = dict[parentId].ToList();
+                        var result = new List<Result>();
+                        foreach (var child in children)
+                        {
+                            result.Add(child);
+                            result.AddRange(GetChildrenRecursive(child.Id));
+                        }
+                        return result;
+                    }
+                    allAccounts = GetChildrenRecursive(parent.Id);
+                    allAccounts.Insert(0, parent);
+                }
+                else
+                {
+                    allAccounts = new List<Result>();
+                }
+            }
+            return allAccounts;
         }
     }
 }

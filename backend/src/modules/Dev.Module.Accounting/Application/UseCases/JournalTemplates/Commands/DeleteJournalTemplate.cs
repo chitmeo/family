@@ -3,9 +3,9 @@ using Dev.Module.Accounting.Application.Interfaces.Persistence;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Dev.Module.Accounting.Application.UseCases.Journals.Commands;
+namespace Dev.Module.Accounting.Application.UseCases.JournalTemplates.Commands;
 
-public static class DeleteJournal
+public static class DeleteJournalTemplate
 {
     public record Command : IRequest<int>
     {
@@ -22,13 +22,13 @@ public static class DeleteJournal
 
         public async Task<int> HandleAsync(Command request, CancellationToken cancellationToken)
         {
-            var entity = await _context.Journals.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            var entity = await _context.JournalTemplates.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             if (entity == null)
             {
                 return 0;
             }
-            _context.Journals.Remove(entity);
+            _context.JournalTemplates.Remove(entity);
             return await _context.SaveChangesAsync(cancellationToken);
         }
     }

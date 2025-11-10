@@ -1,6 +1,6 @@
 using Dev.Mediator;
-using Dev.Module.Accounting.Application.UseCases.Journals.Commands;
-using Dev.Module.Accounting.Application.UseCases.Journals.Queries;
+using Dev.Module.Accounting.Application.UseCases.JournalTemplates.Commands;
+using Dev.Module.Accounting.Application.UseCases.JournalTemplates.Queries;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +16,7 @@ public class JournalController : BaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
-    public async Task<IActionResult> CreateAsync([FromBody] CreateJournal.Command command, CancellationToken cancellationToken)
+    public async Task<IActionResult> CreateAsync([FromBody] CreateJournalTemplate.Command command, CancellationToken cancellationToken)
     {
         Guid newId = await _mediator.SendAsync(command, cancellationToken);
         return StatusCode(StatusCodes.Status201Created, new { id = newId });
@@ -29,7 +29,7 @@ public class JournalController : BaseController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> UpdateAsync(
         [FromRoute] Guid id,
-        [FromBody] UpdateJournal.Command command,
+        [FromBody] UpdateJournalTemplate.Command command,
         CancellationToken cancellationToken)
     {
         if (id != command.Id)
@@ -47,7 +47,7 @@ public class JournalController : BaseController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> DeleteAsync([FromRoute] Guid id, CancellationToken cancellationToken)
     {
-        var command = new DeleteJournal.Command { Id = id };
+        var command = new DeleteJournalTemplate.Command { Id = id };
         await _mediator.SendAsync(command, cancellationToken);
         return NoContent();
     }
@@ -58,7 +58,7 @@ public class JournalController : BaseController
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetByChartOfAccountIdAsync(
         [FromRoute] Guid chartOfAccountId,
-        [FromQuery] GetJournalByChartOfAccountId.Query query,
+        [FromQuery] GetJournalTemplateByChartOfAccountId.Query query,
         CancellationToken cancellationToken)
     {
         query = query with { ChartOfAccountId = chartOfAccountId };

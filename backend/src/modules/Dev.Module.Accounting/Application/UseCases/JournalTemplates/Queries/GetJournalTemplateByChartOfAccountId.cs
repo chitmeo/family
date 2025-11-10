@@ -3,9 +3,9 @@ using Dev.Module.Accounting.Application.Interfaces.Persistence;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Dev.Module.Accounting.Application.UseCases.Journals.Queries;
+namespace Dev.Module.Accounting.Application.UseCases.JournalTemplates.Queries;
 
-public static class GetJournalByChartOfAccountId
+public static class GetJournalTemplateByChartOfAccountId
 {
     public record Result
     {
@@ -39,7 +39,7 @@ public static class GetJournalByChartOfAccountId
 
         public async Task<List<Result>> HandleAsync(Query request, CancellationToken cancellationToken)
         {
-            var query = _context.Journals
+            var query = _context.JournalTemplates
                                 .Include(x => x.ChartOfAccount)
                                 .Include(x => x.DefaultDebitAccount)
                                 .Include(x => x.DefaultCreditAccount)

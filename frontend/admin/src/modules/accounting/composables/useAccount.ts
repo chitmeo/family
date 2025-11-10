@@ -36,12 +36,12 @@ async function updateAccount(account: Account) {
   }
 }
 
-async function getAccounts(chartOfAccountId: string) {
+async function getAccounts(chartOfAccountId: string, parentCode: string) {
   loading.value = true
   error.value = null
   try {
     const res = await api.privateApi.get(`/accg/chartofaccount/${chartOfAccountId}/accounts`, {
-      params: { showHidden: true }
+      params: { showHidden: true, parentCode: parentCode}
     })
     return res.data
   } catch (err: any) {

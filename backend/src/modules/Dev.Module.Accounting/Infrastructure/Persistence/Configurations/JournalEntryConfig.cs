@@ -15,10 +15,15 @@ public class JournalEntryConfig : IEntityTypeConfiguration<JournalEntry>
 
         builder.Property(x => x.Reference).HasMaxLength(50);
         builder.Property(x => x.Description).HasMaxLength(255);
-
-        builder.HasOne(je => je.Journal)
+        //Template -> Entry
+        builder.HasOne(je => je.JournalTemplate)
                .WithMany(j => j.JournalEntries)
-               .HasForeignKey(pk => pk.JournalId)
-               .OnDelete(DeleteBehavior.Restrict);        
+               .HasForeignKey(pk => pk.JournalTemplateId)
+               .OnDelete(DeleteBehavior.Restrict);
+        //Book -> Entry
+        builder.HasOne(jb => jb.JournalBook)
+               .WithMany(je => je.JournalEntries)
+               .HasForeignKey(pk => pk.JournalBookId)
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

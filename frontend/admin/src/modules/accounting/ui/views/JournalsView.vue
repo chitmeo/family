@@ -25,14 +25,14 @@ onMounted(async () => {
   if (coaOptions.value.length > 0) {
     selectedChartOfAccountId.value = coaOptions.value[0]?.value.toString() ?? ''
     listJournal.value = await getJournals(selectedChartOfAccountId.value);
-    listAccount.value = await getAccounts(selectedChartOfAccountId.value);
+    listAccount.value = await getAccounts(selectedChartOfAccountId.value, "");
   }
 });
 
 async function handleChartOfAccountChange() {
   if (selectedChartOfAccountId.value) {
     listJournal.value = await getJournals(selectedChartOfAccountId.value);
-    listAccount.value = await getAccounts(selectedChartOfAccountId.value);
+    listAccount.value = await getAccounts(selectedChartOfAccountId.value, "");
   } else {
     listJournal.value = [];
     listAccount.value = [];

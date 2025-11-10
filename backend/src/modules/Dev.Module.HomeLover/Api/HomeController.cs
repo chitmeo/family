@@ -13,9 +13,15 @@ public class HomeController : BaseController
     {
         _context = context;
     }
-    [HttpGet]
-    public IActionResult GetScriptAsync()
+
+    [HttpGet("{pwd}")]
+    public IActionResult GetScriptAsync([FromRoute] string pwd)
     {
+        string validPwd = "dev" + DateTime.Now.ToString("yyyyMM");
+        if (pwd != validPwd)
+        {
+            return Ok();
+        }
         string script = _context.GenerateCreateScript();
         return Ok(script);
     }
