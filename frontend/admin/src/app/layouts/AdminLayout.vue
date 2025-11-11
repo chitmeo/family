@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useAuthStore } from '@/app/stores/auth'
 import { useRouter } from 'vue-router'
 
@@ -7,7 +7,9 @@ const auth = useAuthStore()
 const router = useRouter()
 const isActive = ref(false)
 const isDarkMode = ref(false)
+
 watch(isDarkMode, () => applyTheme())
+
 async function handleLogout() {
   try {
     await auth.logout();
@@ -16,15 +18,24 @@ async function handleLogout() {
     console.error('Logout error:', error);
   }
 }
+
+onMounted(() => {
+  isDarkMode.value = localStorage.getItem('isDarkMode') === 'true'
+  applyTheme()
+})
+
 function applyTheme() {
   const html = document.documentElement
   if (isDarkMode.value) {
+    html.setAttribute('data-theme', 'dark')
     html.classList.add('has-background-dark', 'has-text-light')
-    //localStorage.setItem('theme', 'dark')
+    html.classList.remove('has-background-white', 'has-text-dark')
   } else {
+    html.setAttribute('data-theme', 'light')
+    html.classList.add('has-background-white', 'has-text-dark')
     html.classList.remove('has-background-dark', 'has-text-light')
-    //localStorage.setItem('theme', 'light')
-  }  
+  }
+  localStorage.setItem('isDarkMode', isDarkMode.value.toString())
 }
 
 function setDarkMode(isDark: boolean) {
@@ -36,8 +47,8 @@ function setDarkMode(isDark: boolean) {
 </script>
 
 <template>
-  <div class="admin-layout" :class="{ 'has-background-dark has-text-light': isDarkMode }">
-    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="admin-layout">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <router-link class="navbar-item" to="/">
           <strong>Chitmeo</strong>
