@@ -2,7 +2,7 @@
 @timeout = 600000
 
 ### Script
-GET {{HostAddress}}/home
+GET {{HostAddress}}/home/dev202511
 Accept: application/json
 
 ### Create Chart of Account

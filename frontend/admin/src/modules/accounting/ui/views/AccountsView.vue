@@ -48,12 +48,21 @@ async function handleSearchAccounts() {
 // === Parent Account options ===
 const parentOptions = computed<types.SelectOption[]>(() => {
     return listAccount.value
-        .sort((a, b) => a.code.localeCompare(b.code))
         .map(a => ({
             text: `${a.code} - ${a.name}`,
             value: a.id,
         }));
 });
+
+const rootParentOptions = computed<types.SelectOption[]>(() => {
+    return listAccount.value
+        .filter(a => !a.parentId)
+        .map(a => ({
+            text: `${a.code} - ${a.name}`,
+            value: a.code,
+        }));    
+});
+
 // === Modal form logic ===
 function openCreateModal() {
     form.value = { id: '', name: '', accountType: '', isActive: true };
@@ -121,8 +130,13 @@ function handleParentAccountChange() {
             <div class="field">
                 <label class="label">Parent Account Code</label>
                 <div class="control">
-                    <div class="input is-fullwidth">
-                        <input type="text" v-model="parentCode" placeholder="Enter parent account code" @change="handleSearchAccounts"/>
+                    <div class="select is-fullwidth">
+                        <select v-model="parentCode" @change="handleSearchAccounts">
+                            <option value=''>-- No Parent (Root) --</option>
+                            <option v-for="item in rootParentOptions" :key="item.value" :value="item.value">
+                                {{ item.text }}
+                            </option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -247,7 +261,6 @@ function handleParentAccountChange() {
                     </footer>
                 </div>
             </div>
-
         </div>
     </section>
 </template>

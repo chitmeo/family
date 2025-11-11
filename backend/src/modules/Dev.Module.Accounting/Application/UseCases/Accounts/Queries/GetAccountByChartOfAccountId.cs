@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 using Dev.Mediator;
 using Dev.Module.Accounting.Application.Interfaces.Persistence;
 
@@ -19,9 +21,10 @@ public static class GetAccountByChartOfAccountId
 
     public sealed record Query : IRequest<List<Result>>
     {
+        [Required(ErrorMessage = "ChartOfAccountId is required")]
         public Guid ChartOfAccountId { get; init; }
         public bool ShowHidden { get; init; } = false;
-        public string ParentCode { get; init; } = string.Empty;
+        public string? ParentCode { get; init; }
     }
 
     internal sealed class Handler : IRequestHandler<Query, List<Result>>
@@ -54,7 +57,7 @@ public static class GetAccountByChartOfAccountId
                 ))
                 .ToListAsync(cancellationToken);
 
-            if (request.ParentCode != "")
+            if (!string.IsNullOrEmpty(request.ParentCode))
             {
                 var parent = allAccounts.FirstOrDefault(x => x.Code == request.ParentCode);
                 if (parent != null)
