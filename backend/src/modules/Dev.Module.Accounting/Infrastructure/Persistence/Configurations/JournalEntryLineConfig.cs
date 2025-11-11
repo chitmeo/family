@@ -13,7 +13,8 @@ public class JournalEntryLineConfig : IEntityTypeConfiguration<JournalEntryLine>
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Property(x => x.Description).HasMaxLength(255);
-
+        
+        //Entry -> Line
         builder.HasOne(jel => jel.JournalEntry)
                .WithMany(je => je.JournalEntryLines)
                .HasForeignKey(pk => pk.JournalEntryId)

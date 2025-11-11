@@ -69,7 +69,7 @@ public static class Login
 
         
     }
-    public sealed class Result
+    public sealed record Result
     {
         public bool Success { get; set; }
         public string? AccessToken { get; set; }
@@ -78,7 +78,7 @@ public static class Login
         public UserDto User { get; set; } = new();
     }
 
-    public sealed class UserDto
+    public sealed record UserDto
     {
         public Guid Id { get; set; }
         public string Username { get; set; } = string.Empty;

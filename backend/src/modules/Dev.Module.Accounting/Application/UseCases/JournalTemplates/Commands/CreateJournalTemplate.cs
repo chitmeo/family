@@ -10,7 +10,7 @@ namespace Dev.Module.Accounting.Application.UseCases.JournalTemplates.Commands;
 
 public static class CreateJournalTemplate
 {
-    public sealed class Command : IRequest<Guid>
+    public sealed record Command : IRequest<Guid>
     {
         public Guid Id { get; set; }
         

@@ -1,24 +1,24 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { useChartOfAccountStore } from '@/modules/accounting/stores/chartOfAccountStore';
-import type { Account, Journal } from '@/modules/accounting/types';
+import type { Account, JournalTemplate } from '@/modules/accounting/types';
 import type { types } from '@chitmeo/shared';
-import { useAccount, useJournal } from '@/modules/accounting/composables';
+import { useAccount, useJournalTemplate } from '@/modules/accounting/composables';
 
 const coaOptions = ref<types.SelectOption[]>([]);
 const { loading: loadingAccount, getAccounts } = useAccount();
-const { loading, error, getJournals, createJournal, updateJournal } = useJournal();
+const { loading, error, getJournals, createJournal, updateJournal } = useJournalTemplate();
 
 const coaStore = useChartOfAccountStore();
 
-const listJournal = ref<Journal[]>([]);
+const listJournal = ref<JournalTemplate[]>([]);
 const listAccount = ref<Account[]>([])
 const selectedChartOfAccountId = ref<string>('');
 const hasData = computed(() => listJournal.value.length > 0);
 // Modal & form state
 const showModal = ref(false);
 const isEditMode = ref(false);
-const form = ref<Partial<Journal>>({});
+const form = ref<Partial<JournalTemplate>>({});
 
 onMounted(async () => {
   coaOptions.value = await coaStore.fetchOptions();
@@ -51,7 +51,7 @@ function openCreateModal() {
   showModal.value = true;
 }
 
-function openEditModal(journal: Journal) {
+function openEditModal(journal: JournalTemplate) {
   form.value = { ...journal };
   isEditMode.value = true;
   showModal.value = true;
@@ -65,10 +65,10 @@ async function handleSubmit() {
   form.value.chartOfAccountId = selectedChartOfAccountId.value;
   try {
     if (isEditMode.value) {
-      await updateJournal(form.value as Journal)
+      await updateJournal(form.value as JournalTemplate)
     } else {
       form.value.id = '00000000-0000-0000-0000-000000000000';
-      await createJournal(form.value as Journal)
+      await createJournal(form.value as JournalTemplate)
     }
     listJournal.value = await getJournals(selectedChartOfAccountId.value);
     closeModal();

@@ -3,6 +3,8 @@ namespace Dev.Module.Accounting.Domain.Entities;
 public class JournalBook
 {
     public Guid Id { get; set; }
+    public Guid ChartOfAccountId { get; set; }
+    public ChartOfAccount ChartOfAccount { get; set; } = default!;
     public string Code { get; set; } = string.Empty;
     public string Name { get; set; } = string.Empty;
     public DateTime PeriodStart { get; set; }

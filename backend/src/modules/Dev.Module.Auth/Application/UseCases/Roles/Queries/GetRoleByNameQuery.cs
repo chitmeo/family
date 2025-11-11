@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dev.Module.Auth.Application.UseCases.Roles.Queries;
 
-public class GetRoleByNameQuery : IRequest<RoleDto?>
+public record GetRoleByNameQuery : IRequest<RoleDto?>
 {
     public required string Name { get; set; }
 }

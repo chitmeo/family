@@ -1,15 +1,15 @@
 import { api, types } from '@chitmeo/shared';
 import { ref } from 'vue';
-import type { Journal } from '@/modules/accounting/types/Journal';
+import type { JournalTemplate } from '@/modules/accounting/types/JournalTemplate';
 
 const loading = ref(false)
 const error = ref<string | null>(null)
 
-async function getJournals(chartOfAccountId: string): Promise<Journal[]> {
+async function getJournals(chartOfAccountId: string): Promise<JournalTemplate[]> {
     loading.value = true
     error.value = null
     try {
-        const res = await api.privateApi.get<Journal[]>(`/accg/journal/by-chartofaccount/${chartOfAccountId}`,
+        const res = await api.privateApi.get<JournalTemplate[]>(`/accg/journalTemplate/by-chartofaccount/${chartOfAccountId}`,
             { params: { showHidden: true } }
         );        
         return res.data
@@ -21,11 +21,11 @@ async function getJournals(chartOfAccountId: string): Promise<Journal[]> {
     }
 }
 
-async function createJournal(payload: Journal) {
+async function createJournal(payload: JournalTemplate) {
     loading.value = true
     error.value = null
     try {
-        await api.privateApi.post('/accg/journal', payload)
+        await api.privateApi.post('/accg/journalTemplate', payload)
     } catch (err: any) {
         error.value = api.extractApiError(err)
     } finally {
@@ -33,11 +33,11 @@ async function createJournal(payload: Journal) {
     }
 }
 
-async function updateJournal(journal: Journal) {
+async function updateJournal(journal: JournalTemplate) {
     loading.value = true
     error.value = null
     try {
-        await api.privateApi.put(`/accg/journal/${journal.id}`, journal)
+        await api.privateApi.put(`/accg/journalTemplate/${journal.id}`, journal)
     } catch (err: any) {
         error.value = api.extractApiError(err)
     }
@@ -47,7 +47,7 @@ async function updateJournal(journal: Journal) {
 }
 
 
-export function useJournal() {
+export function useJournalTemplate() {
     return {
         loading,
         error,

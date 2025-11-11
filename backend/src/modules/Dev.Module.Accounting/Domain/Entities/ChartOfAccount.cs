@@ -8,4 +8,6 @@ public class ChartOfAccount
     public bool IsActive { get; set; } = true;
     public int DisplayOrder { get; set; }
     public ICollection<Account> Accounts { get; internal set; } = new List<Account>();
+    public ICollection<JournalTemplate> JournalTemplates { get; internal set; } = new List<JournalTemplate>();
+    public ICollection<JournalBook> JournalBooks { get; internal set; } = new List<JournalBook>();
 }

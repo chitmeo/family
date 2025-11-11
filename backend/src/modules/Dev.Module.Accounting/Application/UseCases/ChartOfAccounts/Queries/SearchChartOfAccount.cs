@@ -39,7 +39,7 @@ public static class SearchChartOfAccount
                     x.Name.ToLower().Contains(searchTerm)
                 );
             }
-            var items = await query
+            return await query
                .OrderBy(x => x.DisplayOrder)
                .Select(x => new Result(
                    x.Id,
@@ -48,8 +48,6 @@ public static class SearchChartOfAccount
                    x.IsActive
                ))
                .ToListAsync(cancellationToken);
-
-            return items;
         }
     }
 }

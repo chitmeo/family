@@ -15,6 +15,7 @@ public class JournalEntryConfig : IEntityTypeConfiguration<JournalEntry>
 
         builder.Property(x => x.Reference).HasMaxLength(50);
         builder.Property(x => x.Description).HasMaxLength(255);
+        
         //Template -> Entry
         builder.HasOne(je => je.JournalTemplate)
                .WithMany(j => j.JournalEntries)

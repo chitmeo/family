@@ -17,5 +17,11 @@ public class JournalConfig : IEntityTypeConfiguration<JournalTemplate>
         builder.Property(x => x.Name).HasMaxLength(100);
         builder.Property(x => x.Type).HasMaxLength(10);
         builder.Property(x => x.Description).HasMaxLength(255);
+
+        //Chart of account -> Journal Template
+        builder.HasOne(coa => coa.ChartOfAccount)
+               .WithMany(jt => jt.JournalTemplates)
+               .HasForeignKey(pk => pk.ChartOfAccountId)
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

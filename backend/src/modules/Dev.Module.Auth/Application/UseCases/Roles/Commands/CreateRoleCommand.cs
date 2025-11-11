@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dev.Module.Auth.Application.UseCases.Roles.Commands;
 
-public class CreateRoleCommand : IRequest<Guid>
+public record CreateRoleCommand : IRequest<Guid>
 {
     public string Name { get; set; } = string.Empty;
     public bool IsSystemRole { get; set; } = false;

@@ -47,8 +47,7 @@ public partial class ChartOfAccountController : BaseController
         [FromQuery] SearchChartOfAccount.Query query,
         CancellationToken cancellationToken)
     {
-        var items = await _mediator.SendAsync(query, cancellationToken);
-        return Ok(items);
+        return Ok(await _mediator.SendAsync(query, cancellationToken));
     }
 
     [HttpGet("{coaid:guid}/accounts")]

@@ -17,7 +17,12 @@ public static class GetAccountByChartOfAccountId
         bool IsActive
     );
 
-    public sealed record Query(Guid ChartOfAccountId, bool ShowHidden = false, string ParentCode = "") : IRequest<List<Result>>;
+    public sealed record Query : IRequest<List<Result>>
+    {
+        public Guid ChartOfAccountId { get; init; }
+        public bool ShowHidden { get; init; } = false;
+        public string ParentCode { get; init; } = string.Empty;
+    }
 
     internal sealed class Handler : IRequestHandler<Query, List<Result>>
     {

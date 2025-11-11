@@ -1,4 +1,4 @@
-export interface Journal {
+export interface JournalTemplate {
     id: string
     chartOfAccountId: string
     coaName: string

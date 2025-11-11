@@ -17,9 +17,15 @@ const accountingRoutes: RouteRecordRaw[] = [
         meta: { title: 'Accounts', requiresAuth: true },
       },
       {
-        path: 'journals',
-        name: 'Journals',
-        component: () => import('@/modules/accounting/ui/views/JournalsView.vue'),
+        path: 'journalBooks',
+        name: 'Journal Books',
+        component: () => import('@/modules/accounting/ui/views/JournalBooksView.vue'),
+        meta: { title: 'Journal Books', requiresAuth: true },
+      },
+      {
+        path: 'journalTemplates',
+        name: 'Journal Templates',
+        component: () => import('@/modules/accounting/ui/views/JournalTemplatesView.vue'),
         meta: { title: 'Journals', requiresAuth: true }
       },
       {
