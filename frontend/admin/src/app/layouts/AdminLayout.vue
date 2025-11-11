@@ -122,8 +122,6 @@ function setDarkMode(isDark: boolean) {
       </div>
     </nav>
 
-    <main class="section">
-      <router-view />
-    </main>
+    <router-view />
   </div>
 </template>
