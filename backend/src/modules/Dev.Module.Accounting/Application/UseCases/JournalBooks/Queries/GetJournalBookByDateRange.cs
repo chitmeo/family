@@ -22,6 +22,8 @@ public static class GetJournalBookByDateRange
 
     public sealed class Query : IRequest<IEnumerable<Result>>
     {
+        [Required(ErrorMessage = "ChartOfAccountId is required.")]
+        public Guid ChartOfAccountId { get; init; }
         [Required(ErrorMessage = "StartDate is required.")]
         public DateTime StartDate { get; init; }
         [Required(ErrorMessage = "EndDate is required.")]
@@ -58,7 +60,7 @@ public static class GetJournalBookByDateRange
 
         private void ValidateAndThrow(Query request)
         {
-            if (request.EndDate > request.StartDate)
+            if (request.EndDate < request.StartDate)
             {
                 throw new InvalidOperationException("End date must be greater than or equal to start date.");
             }

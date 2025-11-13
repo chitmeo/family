@@ -2,12 +2,12 @@
 import { onMounted, ref, watch } from 'vue'
 import { useAuthStore } from '@/app/stores/auth'
 import { useRouter } from 'vue-router'
+import Navbar from '@/app/components/Navbar.vue'
 
 const auth = useAuthStore()
 const router = useRouter()
 const isActive = ref(false)
 const isDarkMode = ref(false)
-
 watch(isDarkMode, () => applyTheme())
 
 async function handleLogout() {
@@ -42,8 +42,6 @@ function setDarkMode(isDark: boolean) {
   isDarkMode.value = isDark
   applyTheme()
 }
-
-
 </script>
 
 <template>
@@ -64,30 +62,7 @@ function setDarkMode(isDark: boolean) {
 
       <div class="navbar-menu" :class="{ 'is-active': isActive }">
         <div class="navbar-start">
-          <router-link class="navbar-item" to="/">Home</router-link>
-
-          <!-- Dropdown Accounting -->
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">Accounting</a>
-
-            <div class="navbar-dropdown">
-              <router-link class="navbar-item" to="/accounting/chartofaccounts">
-                Chart of Accounts
-              </router-link>
-              <router-link class="navbar-item" to="/accounting/accounts">
-                Accounts
-              </router-link>
-              <router-link class="navbar-item" to="/accounting/journalBooks">
-                Journal Books
-              </router-link>
-              <router-link class="navbar-item" to="/accounting/journalTemplates">
-                Journal Templates
-              </router-link>
-              <router-link class="navbar-item" to="/accounting/journalEntries">
-                Journal Entries
-              </router-link>
-            </div>
-          </div>
+          <Navbar />
         </div>
 
         <div class="navbar-end">
