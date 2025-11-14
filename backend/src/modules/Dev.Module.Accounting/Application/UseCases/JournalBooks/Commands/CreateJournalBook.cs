@@ -7,12 +7,17 @@ using Dev.Module.Accounting.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
 
+using Org.BouncyCastle.Ocsp;
+
 namespace Dev.Module.Accounting.Application.UseCases.JournalBooks.Commands;
 
 public static class CreateJournalBook
 {
     public sealed record Command : IRequest<Guid>
     {
+        [Required(ErrorMessage = "ChartOfAccountId is required.")]
+        public Guid ChartOfAccountId { get; init; }
+
         [Required(ErrorMessage = "Code is required.")]
         [StringLength(10, ErrorMessage = "Code length must not exceed 10 characters.")]
         public string Code { get; init; } = string.Empty;
@@ -20,6 +25,12 @@ public static class CreateJournalBook
         [Required(ErrorMessage = "Name is required.")]
         [StringLength(10, ErrorMessage = "Name length must not exceed 255 characters.")]
         public string Name { get; init; } = string.Empty;
+
+        [Required(ErrorMessage = "PeriodStart is required.")]        
+        public DateTime  PeriodStart { get; set; }
+
+        [Required(ErrorMessage = "PeriodEnd is required.")]
+        public DateTime  PeriodEnd { get; set; }
 
         [StringLength(1024, ErrorMessage = "Description length must not exceed 1024 characters.")]
         public string Description { get; init; } = string.Empty;
@@ -40,8 +51,11 @@ public static class CreateJournalBook
             await ValidateAndThrow(request, cancellationToken);
             var journalBook = new JournalBook()
             {
+                ChartOfAccountId = request.ChartOfAccountId,
                 Code = request.Code,
                 Name = request.Name,
+                PeriodStart = request.PeriodStart,
+                PeriodEnd = request.PeriodEnd,
                 Description = request.Description,
                 IsActive = request.IsActive
             };
