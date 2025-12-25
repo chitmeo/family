@@ -28,7 +28,6 @@ public static class Login
         public async Task<Result> HandleAsync(Command request, CancellationToken cancellationToken)
         {
             var user = await _context.Users
-                .Include(r => r.UserRoles).ThenInclude(r => r.Role)
                 .FirstOrDefaultAsync(u => u.Username.Trim().ToLower() == request.UserName.Trim().ToLower(), cancellationToken);
 
             if (user == null)
@@ -62,12 +61,11 @@ public static class Login
                     Id = user.Id,
                     Username = request.UserName,
                     Email = user.Email,
-                    Roles = string.Join(",", user.UserRoles.Select(r => r.Role.SystemName))
                 }
             };
         }
 
-        
+
     }
     public sealed class Result
     {

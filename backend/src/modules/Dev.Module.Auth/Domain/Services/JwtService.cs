@@ -34,7 +34,7 @@ public class JwtService : IJwtService
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
         };
 
-        tokenDescriptor.Subject.AddClaims(user.UserRoles.Select(r => new Claim(ClaimTypes.Role, r.Role.SystemName)));
+        //tokenDescriptor.Subject.AddClaims(user.UserRoles.Select(r => new Claim(ClaimTypes.Role, r.Role.SystemName)));
 
         var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);

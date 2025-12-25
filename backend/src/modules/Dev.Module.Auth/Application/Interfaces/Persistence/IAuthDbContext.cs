@@ -8,7 +8,6 @@ public interface IAuthDbContext
 {
     DbSet<User> Users { get; }
     DbSet<Role> Roles { get; }
-    DbSet<UserRole> UserRoles { get; }
     DbSet<UserPassword> UserPasswords { get; }
     DbSet<RefreshToken> RefreshTokens { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);

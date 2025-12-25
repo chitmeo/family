@@ -21,7 +21,7 @@ public static class Refresh
 
         public async Task<Result> HandleAsync(Query request, CancellationToken cancellationToken)
         {
-            var storedToken = await _context.RefreshTokens.Include(u => u.User).ThenInclude(ur => ur.UserRoles).ThenInclude(r => r.Role)
+            var storedToken = await _context.RefreshTokens.Include(u => u.User)
                                             .SingleOrDefaultAsync(rt => rt.Token == request.RefreshToken);
             if (storedToken == null || storedToken.ExpiryDate < DateTime.UtcNow || storedToken.Invalidated)
                 throw new UnauthorizedAccessException("Invalid or expired refresh token.");

@@ -30,6 +30,5 @@ public class User
     public DateTime LastActivityDateUtc { get; set; }
 
     public ICollection<UserPassword> UserPasswords { get; set; } = new List<UserPassword>();
-    public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
     public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 }

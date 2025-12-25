@@ -61,14 +61,14 @@ public static class Register
                 },
             };
 
-            UserRole userRole = new()
-            {
-                UserId = userId,
-                RoleId = userRoleId
-            };
+            // UserRole userRole = new()
+            // {
+            //     UserId = userId,
+            //     RoleId = userRoleId
+            // };
 
             await _context.UserPasswords.AddAsync(userPassword, cancellationToken);
-            await _context.UserRoles.AddAsync(userRole, cancellationToken);
+            //await _context.UserRoles.AddAsync(userRole, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
             return userId;

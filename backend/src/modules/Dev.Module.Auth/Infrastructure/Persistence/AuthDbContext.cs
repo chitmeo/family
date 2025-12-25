@@ -13,7 +13,6 @@ public class AuthDbContext : DbContext, IAuthDbContext
 
     public DbSet<Role> Roles => Set<Role>();
 
-    public DbSet<UserRole> UserRoles => Set<UserRole>();
 
     public DbSet<UserPassword> UserPasswords => Set<UserPassword>();
 
