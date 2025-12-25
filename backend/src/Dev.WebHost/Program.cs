@@ -1,7 +1,7 @@
 using Dev.WebHost.Extensions;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.ConfigureWebApplication();
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 await app.ConfigureRequestPipelineAsync();
