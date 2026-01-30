@@ -14,6 +14,10 @@ public static class UpdateJournalBook
     {
         [Required(ErrorMessage = "Id is required.")]
         public Guid Id { get; init; }
+
+        [Required(ErrorMessage = "ChartOfAccountId is required.")]
+        public Guid ChartOfAccountId { get; init; }
+
         [Required(ErrorMessage = "Code is required.")]
         [StringLength(10, ErrorMessage = "Code length must not exceed 10 characters.")]
         public string Code { get; init; } = string.Empty;
@@ -44,10 +48,14 @@ public static class UpdateJournalBook
                 throw new KeyNotFoundException($"Journal Book with ID {request.Id} not found.");
             }
 
+            journalBook.ChartOfAccountId = request.ChartOfAccountId;
             journalBook.Code = request.Code;
             journalBook.Name = request.Name;
+            journalBook.PeriodStart = journalBook.PeriodStart;
+            journalBook.PeriodEnd = journalBook.PeriodEnd;
             journalBook.Description = request.Description;
             journalBook.IsActive = request.IsActive;
+            
             //TODO: make sure alway has only one Joural Book is active.
             return await _context.SaveChangesAsync(cancellationToken);
         }

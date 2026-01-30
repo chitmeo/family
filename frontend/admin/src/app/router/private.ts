@@ -1,6 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router';
 import AdminLayout from '@/app/layouts/AdminLayout.vue'
 import accountingRoutes from '@/modules/accounting/ui/router/accounting.routes';
+import authenticationRoutes from '@/modules/authentication/ui/router/authentication.routes';
 
 export const privateRoutes: RouteRecordRaw[] = [
   {
@@ -9,7 +10,8 @@ export const privateRoutes: RouteRecordRaw[] = [
     meta: { requiresAuth: true },
     children: [
       { path: '', name: 'Dashboard', component: () => import('@/app/views/DashboardView.vue') },
-      ...accountingRoutes
+      ...authenticationRoutes,
+      ...accountingRoutes,
     ],
   },
 ]

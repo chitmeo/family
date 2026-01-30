@@ -24,7 +24,7 @@ internal static class WebApplicationBuilderExtensions
         builder.AddTimeouts();
 
         // Bind DataConnectionOptions from appsettings.json
-        var dataConnectionOptions = builder.Configuration
+        DataConnectionOptions? dataConnectionOptions = builder.Configuration
             .GetSection("DataConnection")
             .Get<DataConnectionOptions>();
 
@@ -64,11 +64,7 @@ internal static class WebApplicationBuilderExtensions
 
     private static void AddCORS(this WebApplicationBuilder builder)
     {
-        var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
-
-        if (allowedOrigins == null)
-            throw new ConfigurationErrorsException("Missing AllowedOrigins configuration");
-
+        string[] allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>() ?? throw new ConfigurationErrorsException("Missing AllowedOrigins configuration");
         builder.Services.AddCors(options =>
         {
             options.AddDefaultPolicy(
@@ -85,7 +81,7 @@ internal static class WebApplicationBuilderExtensions
     private static void AddTimeouts(this WebApplicationBuilder builder)
     {
         // Get Kestrel configuration section
-        var kestrelConfig = builder.Configuration.GetSection("Kestrel:Limits");
+        IConfigurationSection kestrelConfig = builder.Configuration.GetSection("Kestrel:Limits");
 
         if (kestrelConfig.Exists()) // Check if the section exists
         {

@@ -16,6 +16,13 @@ const menus = [
         ],
     },
     {
+        name: 'authentication',
+        label: 'User ',
+        items: [
+            { text: 'Roles', to: '/authentication/roles' },
+        ],
+    },
+    {
         name: 'reports',
         label: 'Reports',
         items: [
