@@ -1,5 +1,4 @@
 using Dev.Mediator;
-using Dev.Module.Bible.Application.Persistence;
 using Dev.Module.Bible.Application.UseCases.Languages.Commands;
 using Dev.Module.Bible.Application.UseCases.Queries;
 
@@ -9,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace Dev.Module.Bible.Api;
 
 public class LanguageController : BaseController
-{    
+{
     public LanguageController(IMediator mediator) : base(mediator)
-    {        
+    {
     }
 
     [HttpPost]

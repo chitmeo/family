@@ -4,3 +4,7 @@
 ### Script
 GET {{HostAddress}}/home
 Accept: application/json
+
+### Get Language
+GET {{HostAddress}}/language
+Accept: application/json
