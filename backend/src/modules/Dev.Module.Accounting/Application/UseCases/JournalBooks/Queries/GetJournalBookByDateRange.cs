@@ -20,7 +20,7 @@ public static class GetJournalBookByDateRange
         public bool IsActive { get; init; }
     }
 
-    public sealed class Query : IRequest<IEnumerable<Result>>
+    public sealed class Query : IRequest<List<Result>>
     {
         [Required(ErrorMessage = "ChartOfAccountId is required.")]
         public Guid ChartOfAccountId { get; init; }
@@ -29,7 +29,7 @@ public static class GetJournalBookByDateRange
         [Required(ErrorMessage = "EndDate is required.")]
         public DateTime EndDate { get; init; }
     }
-    internal sealed class Handler : IRequestHandler<Query, IEnumerable<Result>>
+    internal sealed class Handler : IRequestHandler<Query, List<Result>>
     {
         private readonly IAccountingDbContext _context;
         public Handler(IAccountingDbContext context)
@@ -37,7 +37,7 @@ public static class GetJournalBookByDateRange
             _context = context;
         }
 
-        public async Task<IEnumerable<Result>> HandleAsync(Query request, CancellationToken cancellationToken)
+        public async Task<List<Result>> HandleAsync(Query request, CancellationToken cancellationToken)
         {
             ValidationHelper.ValidateAndThrow(request);
             ValidateAndThrow(request);
