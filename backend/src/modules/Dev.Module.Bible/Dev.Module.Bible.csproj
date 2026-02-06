@@ -10,9 +10,4 @@
     <ProjectReference Include="..\..\dev\Dev.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Application\UseCases\Books\" />
-    <Folder Include="Application\UseCases\Books\Commands\" />
-  </ItemGroup>
-
 </Project>

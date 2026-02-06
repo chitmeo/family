@@ -15,8 +15,8 @@ public static class CreateAccount
     {
         public Guid Id { get; set; }
         [Required]
-        public Guid ChartOfAccountId { get; set; }        
-        public Guid? ParentId { get; set; } 
+        public Guid ChartOfAccountId { get; set; }
+        public Guid? ParentId { get; set; }
         [Required]
         public string Code { get; set; } = string.Empty;
         [Required]
@@ -41,7 +41,6 @@ public static class CreateAccount
 
             var account = new Account()
             {
-                Id = Guid.NewGuid(),
                 ChartOfAccountId = request.ChartOfAccountId,
                 ParentId = request.ParentId,
                 Code = request.Code,
@@ -49,7 +48,7 @@ public static class CreateAccount
                 AccountType = request.AccountType,
                 IsActive = request.IsActive
             };
-            await _context.Accounts.AddAsync(account);
+            await _context.Accounts.AddAsync(account, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             return account.Id;
         }
