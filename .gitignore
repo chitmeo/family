@@ -158,3 +158,4 @@ secrets.json
 # ======================================================
 # END
 # ======================================================
+backend/src/Dev.WebHost/App_Data/DataProtectionKeys/*.xml
