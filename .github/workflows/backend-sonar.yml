@@ -1,4 +1,4 @@
-name: Backend (.NET) - Build, Test & SonarCloud
+name: Backend (.NET 9) - Build, Test & SonarCloud
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  backend-sonar:
+  backend:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,23 +16,20 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Setup .NET
+    - name: Setup .NET 9
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '9.0.x'
 
-    - name: Restore
-      working-directory: backend
-      run: dotnet restore dev.slnx
+    - name: Restore Dev project
+      run: dotnet restore backend/src/Dev/Dev.csproj
 
-    - name: Build
-      working-directory: backend
-      run: dotnet build dev.slnx --no-restore
+    - name: Build Dev project
+      run: dotnet build backend/src/Dev/Dev.csproj --no-restore
 
-    - name: Test with coverage
-      working-directory: backend
+    - name: Test Dev project with coverage
       run: |
-        dotnet test dev.slnx \
+        dotnet test backend/src/Dev/Dev.csproj \
           --no-build \
           /p:CollectCoverage=true \
           /p:CoverletOutputFormat=opencover
