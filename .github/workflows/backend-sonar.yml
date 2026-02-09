@@ -1,0 +1,49 @@
+name: Backend (.NET) - Build, Test & SonarCloud
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  backend-sonar:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore
+      working-directory: backend
+      run: dotnet restore dev.slnx
+
+    - name: Build
+      working-directory: backend
+      run: dotnet build dev.slnx --no-restore
+
+    - name: Test with coverage
+      working-directory: backend
+      run: |
+        dotnet test dev.slnx \
+          --no-build \
+          /p:CollectCoverage=true \
+          /p:CoverletOutputFormat=opencover
+
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@v2
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        projectBaseDir: backend
+        args: >
+          -Dsonar.projectKey=chitmeo_family
+          -Dsonar.organization=chitmeo
+          -Dsonar.cs.opencover.reportsPaths=**/coverage.opencover.xml
