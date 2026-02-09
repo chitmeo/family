@@ -7,6 +7,8 @@ using Dev.Module.Accounting.Domain.Entities;
 
 using Microsoft.EntityFrameworkCore;
 
+using Org.BouncyCastle.Ocsp;
+
 namespace Dev.Module.Accounting.Application.UseCases.JournalBooks.Commands;
 
 public static class CreateJournalBook
@@ -24,7 +26,7 @@ public static class CreateJournalBook
         [StringLength(10, ErrorMessage = "Name length must not exceed 255 characters.")]
         public string Name { get; init; } = string.Empty;
 
-        [Required(ErrorMessage = "PeriodStart is required.")]
+        [Required(ErrorMessage = "PeriodStart is required.")]        
         public DateTime  PeriodStart { get; set; }
 
         [Required(ErrorMessage = "PeriodEnd is required.")]
