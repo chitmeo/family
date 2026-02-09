@@ -6,7 +6,7 @@
   </Configurations>
   <Folder Name="/src/">
     <Project Path="src/Dev.WebHost/Dev.WebHost.csproj" />
-    <Project Path="src/dev/Dev.csproj" />
+    <Project Path="src/Dev/Dev.csproj" />
   </Folder>
   <Folder Name="/src/modules/">
     <Project Path="src/modules/Dev.Module.Accounting/Dev.Module.Accounting.csproj" />
