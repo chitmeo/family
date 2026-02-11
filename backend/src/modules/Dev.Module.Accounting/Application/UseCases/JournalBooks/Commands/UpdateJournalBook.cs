@@ -41,7 +41,7 @@ public static class UpdateJournalBook
         {
             ValidationHelper.ValidateAndThrow(request);
             await ValidateAndThrow(request, cancellationToken);
-            
+
             var journalBook = await _context.JournalBooks.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (journalBook == null)
             {
@@ -55,7 +55,7 @@ public static class UpdateJournalBook
             journalBook.PeriodEnd = journalBook.PeriodEnd;
             journalBook.Description = request.Description;
             journalBook.IsActive = request.IsActive;
-            
+
             //TODO: make sure alway has only one Joural Book is active.
             return await _context.SaveChangesAsync(cancellationToken);
         }

@@ -1,5 +1,3 @@
-using System;
-
 using Dev.Mediator;
 using Dev.Module.Accounting.Application.Interfaces.Persistence;
 

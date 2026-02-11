@@ -30,6 +30,6 @@ public class AccountConfig : IEntityTypeConfiguration<Account>
                .WithMany(p => p.Children)
                .HasForeignKey(a => a.ParentId)
                .IsRequired(false)
-               .OnDelete(DeleteBehavior.Restrict);    
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

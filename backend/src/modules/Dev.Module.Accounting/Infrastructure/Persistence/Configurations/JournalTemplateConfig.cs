@@ -23,5 +23,15 @@ public class JournalConfig : IEntityTypeConfiguration<JournalTemplate>
                .WithMany(jt => jt.JournalTemplates)
                .HasForeignKey(pk => pk.ChartOfAccountId)
                .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(dca => dca.DefaultCreditAccount)
+               .WithMany()
+               .HasForeignKey(fk => fk.DefaultCreditAccountId)
+               .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasOne(dca => dca.DefaultDebitAccount)
+               .WithMany()
+               .HasForeignKey(fk => fk.DefaultDebitAccountId)
+               .OnDelete(DeleteBehavior.NoAction);
     }
 }
