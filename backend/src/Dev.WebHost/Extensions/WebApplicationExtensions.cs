@@ -1,6 +1,5 @@
 ﻿using Dev.Module.Auth;
 using Dev.Module.Bible;
-using Dev.Module.HomeLover;
 
 namespace Dev.WebHost.Extensions;
 
@@ -26,7 +25,6 @@ internal static class WebApplicationExtensions
         app.UseDev();
         //use modules
         app.UseAuthModule();
-        app.UseHomeLoverModule();
         app.UseBibleModule();
         //run
         await app.RunAsync();

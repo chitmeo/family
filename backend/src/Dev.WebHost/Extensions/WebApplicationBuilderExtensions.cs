@@ -4,7 +4,6 @@ using System.Configuration;
 using Dev.Module.Accounting;
 using Dev.Module.Auth;
 using Dev.Module.Bible;
-using Dev.Module.HomeLover;
 using Dev.WebHost.Exceptions;
 using Dev.WebHost.Services;
 
@@ -51,7 +50,6 @@ internal static class WebApplicationBuilderExtensions
         builder.Services.AddAccountingModule(builder);
         builder.Services.AddAuthModule(builder);
         builder.Services.AddBibleModule(builder);
-        builder.Services.AddHomeLoverModule(builder);
         builder.Services.AddMediator();
         builder.Services.AddControllers();
 
