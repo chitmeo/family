@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\dev\Dev.csproj" />
+    <ProjectReference Include="..\Dev\Dev.csproj" />
     <ProjectReference Include="..\modules\Dev.Module.Accounting\Dev.Module.Accounting.csproj" />
     <ProjectReference Include="..\modules\Dev.Module.Auth\Dev.Module.Auth.csproj" />
     <ProjectReference Include="..\modules\Dev.Module.Bible\Dev.Module.Bible.csproj" />

@@ -15,6 +15,12 @@ public class HomeController : BaseController
         _context = context;
     }
 
+    [HttpGet("ping")]
+    public IActionResult Ping()
+    {
+        return Ok("Pong");
+    }
+
     [HttpGet("{pwd}")]
     public IActionResult GetScriptAsync([FromRoute] string pwd)
     {
@@ -42,4 +48,4 @@ public class HomeController : BaseController
         return Ok();
     }
 }
-    
+
