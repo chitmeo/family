@@ -3,7 +3,7 @@
 import ChartOfAccountInfoTab from '@/modules/accounting/ui/components/ChartOfAccountInfoTab.vue'
 import ChartOfAccountAccountsTab from '@/modules/accounting/ui/components/ChartOfAccountAccountsTab.vue'
 import ChartOfAccountFindTab from '@/modules/accounting/ui/components/ChartOfAccountFindTab.vue'
-import { useChartOfAccount } from '@/modules/accounting/composables/useChartOfAccount'
+import { useChartOfAccount } from '@/modules/accounting/composables'
 
 const { activeTab } = useChartOfAccount()
 // Tab click handler

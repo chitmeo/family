@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useAuthStore } from '@/app/stores/auth';
-import { useRouter } from 'vue-router';
+import { onMounted, ref, watch } from 'vue'
+import { useAuthStore } from '@/app/stores/auth'
+import { useRouter } from 'vue-router'
+import Navbar from '@/app/components/Navbar.vue'
 
-const auth = useAuthStore();
-const router = useRouter();
-const isActive = ref(false);
+const auth = useAuthStore()
+const router = useRouter()
+const isActive = ref(false)
+const isDarkMode = ref(false)
+watch(isDarkMode, () => applyTheme())
 
 async function handleLogout() {
   try {
@@ -15,11 +18,35 @@ async function handleLogout() {
     console.error('Logout error:', error);
   }
 }
+
+onMounted(() => {
+  isDarkMode.value = localStorage.getItem('isDarkMode') === 'true'
+  applyTheme()
+})
+
+function applyTheme() {
+  const html = document.documentElement
+  if (isDarkMode.value) {
+    html.setAttribute('data-theme', 'dark')
+    html.classList.add('has-background-dark', 'has-text-light')
+    html.classList.remove('has-background-white', 'has-text-dark')
+  } else {
+    html.setAttribute('data-theme', 'light')
+    html.classList.add('has-background-white', 'has-text-dark')
+    html.classList.remove('has-background-dark', 'has-text-light')
+  }
+  localStorage.setItem('isDarkMode', isDarkMode.value.toString())
+}
+
+function setDarkMode(isDark: boolean) {
+  isDarkMode.value = isDark
+  applyTheme()
+}
 </script>
 
 <template>
   <div class="admin-layout">
-    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <router-link class="navbar-item" to="/">
           <strong>Chitmeo</strong>
@@ -35,27 +62,7 @@ async function handleLogout() {
 
       <div class="navbar-menu" :class="{ 'is-active': isActive }">
         <div class="navbar-start">
-          <router-link class="navbar-item" to="/">Home</router-link>
-
-          <!-- Dropdown Accounting -->
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">Accounting</a>
-
-            <div class="navbar-dropdown">
-              <router-link class="navbar-item" to="/accounting/chartofaccounts">
-                Chart of Accounts
-              </router-link>
-              <router-link class="navbar-item" to="/accounting/accounts">
-                Accounts
-              </router-link>
-              <router-link class="navbar-item" to="/accounting/journals">
-                Journal
-              </router-link>
-              <router-link class="navbar-item" to="/accounting/journalentry">
-                Journal Entry
-              </router-link>
-            </div>
-          </div>
+          <Navbar />
         </div>
 
         <div class="navbar-end">
@@ -64,6 +71,21 @@ async function handleLogout() {
             <div class="navbar-dropdown is-right">
               <router-link class="navbar-item" to="/profile">Profile</router-link>
               <router-link class="navbar-item" to="/settings">Settings</router-link>
+
+              <div class="navbar-item is-flex is-justify-content-space-between is-align-items-center">
+                <button data-scheme="light" class="bd-nav-item button is-white is-small mr-2"
+                  :class="{ 'is-active': !isDarkMode }" aria-label="Light mode" @click="setDarkMode(false)">
+                  <span class="icon"><i class="fas fa-sun" aria-hidden="true"></i></span>
+                  <span>Light</span>
+                </button>
+
+                <button data-scheme="dark" class="bd-nav-item button is-dark is-small"
+                  :class="{ 'is-active': isDarkMode }" aria-label="Dark mode" @click="setDarkMode(true)">
+                  <span class="icon"><i class="fas fa-moon" aria-hidden="true"></i></span>
+                  <span>Dark</span>
+                </button>
+              </div>
+
               <hr class="navbar-divider" />
               <a href="#" class="navbar-item has-text-danger" @click.prevent="handleLogout">
                 Logout
@@ -71,11 +93,10 @@ async function handleLogout() {
             </div>
           </div>
         </div>
+
       </div>
     </nav>
 
-    <main class="section">
-      <router-view />
-    </main>
+    <router-view />
   </div>
 </template>

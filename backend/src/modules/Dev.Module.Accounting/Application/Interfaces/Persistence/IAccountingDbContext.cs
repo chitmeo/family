@@ -8,7 +8,8 @@ public interface IAccountingDbContext
 {
     DbSet<Account> Accounts { get; }
     DbSet<ChartOfAccount> ChartOfAccounts { get; }
-    DbSet<Journal> Journals { get; }
+    DbSet<JournalBook> JournalBooks { get; }
+    DbSet<JournalTemplate> JournalTemplates { get; }
     DbSet<JournalEntry> JournalEntries { get; }
     DbSet<JournalEntryLine> JournalEntryLines { get; }
 

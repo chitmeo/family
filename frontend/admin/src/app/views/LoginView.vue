@@ -7,7 +7,7 @@ const errors = ref<{ email?: string; password?: string; loginResult?: string }>(
 
 const email = ref('')
 const password = ref('')
-
+const isLogging = ref(false)
 const router = useRouter()
 const authStore = useAuthStore()
 
@@ -33,6 +33,7 @@ const handleLogin = async () => {
     if (!validate()) return
 
     try {
+        isLogging.value = true
         const res = await api.publicApi.post('/auth/auth/login', {
             userName: email.value,
             password: password.value
@@ -57,6 +58,10 @@ const handleLogin = async () => {
             errors.value.loginResult = 'Cannot connect to server. Please check your network.'
         }
     }
+    finally {
+        isLogging.value = false
+    }
+
 }
 </script>
 
@@ -87,7 +92,12 @@ const handleLogin = async () => {
                             </div>
                             <div class="field">
                                 <div class="control">
-                                    <button class="button is-primary is-fullwidth" type="submit">Login</button>
+                                    <button class="button is-primary is-fullwidth" type="submit">
+                                        <span v-if="!isLogging">Login</span>
+                                        <span v-else class="loader">
+                                            <i class="fas fa-spinner fa-spin"></i>                                            
+                                        </span>
+                                    </button>
                                 </div>
                             </div>
                         </form>

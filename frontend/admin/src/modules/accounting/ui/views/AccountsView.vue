@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref, onMounted } from 'vue';
-import { useAccount } from '@/modules/accounting/composables/useAccount';
+import { useAccount } from '@/modules/accounting/composables';
 import type { types } from '@chitmeo/shared';
 import type { Account } from '@/modules/accounting/types/Account';
 import { useChartOfAccountStore } from '@/modules/accounting/stores/chartOfAccountStore';
@@ -8,6 +8,7 @@ import { useChartOfAccountStore } from '@/modules/accounting/stores/chartOfAccou
 const { currentAccount, loading, error, getAccounts, createAccount, updateAccount } = useAccount();
 const coaStore = useChartOfAccountStore();
 const selectedChartOfAccountId = ref<string>('');
+const parentCode = ref<string>('');
 const coaOptions = ref<types.SelectOption[]>([]);
 const listAccount = ref<Account[]>([])
 const hasData = computed(() => listAccount.value.length > 0);
@@ -27,13 +28,13 @@ onMounted(async () => {
     coaOptions.value = await coaStore.fetchOptions();
     if (coaOptions.value.length > 0) {
         selectedChartOfAccountId.value = coaOptions.value[0]?.value.toString() ?? '';
-        listAccount.value = await getAccounts(selectedChartOfAccountId.value);
+        listAccount.value = await getAccounts(selectedChartOfAccountId.value, parentCode.value);
     }
 });
 
-async function handleChartOfAccountChange() {
+async function handleSearchAccounts() {
     if (selectedChartOfAccountId.value) {
-        listAccount.value = await getAccounts(selectedChartOfAccountId.value);
+        listAccount.value = await getAccounts(selectedChartOfAccountId.value, parentCode.value);
         const selected = coaOptions.value.find(
             (opt) => opt.value === selectedChartOfAccountId.value
         );
@@ -47,13 +48,21 @@ async function handleChartOfAccountChange() {
 // === Parent Account options ===
 const parentOptions = computed<types.SelectOption[]>(() => {
     return listAccount.value
-        .filter(a => !a.parentId)
-        .sort((a, b) => a.code.localeCompare(b.code))
         .map(a => ({
             text: `${a.code} - ${a.name}`,
             value: a.id,
         }));
 });
+
+const rootParentOptions = computed<types.SelectOption[]>(() => {
+    return listAccount.value
+        .filter(a => !a.parentId)
+        .map(a => ({
+            text: `${a.code} - ${a.name}`,
+            value: a.code,
+        }));    
+});
+
 // === Modal form logic ===
 function openCreateModal() {
     form.value = { id: '', name: '', accountType: '', isActive: true };
@@ -79,12 +88,25 @@ async function handleSubmit() {
             form.value.id = '00000000-0000-0000-0000-000000000000';
             await createAccount(form.value as Account);
         }
-        await getAccounts(selectedChartOfAccountId.value);
+        listAccount.value = await getAccounts(selectedChartOfAccountId.value, parentCode.value);
         closeModal();
     } catch (err) {
         console.error(err);
     }
 }
+
+function handleParentAccountChange() {
+    if (form.value.parentId) {
+        const parentAccount = listAccount.value.find(a => a.id === form.value.parentId);
+        if (parentAccount) {
+            form.value.accountType = parentAccount.accountType;
+        }
+    } else {
+        form.value.accountType = '';
+    }
+}
+
+
 </script>
 
 <template>
@@ -97,8 +119,21 @@ async function handleSubmit() {
                 <label class="label">Chart of Account</label>
                 <div class="control">
                     <div class="select is-fullwidth">
-                        <select v-model="selectedChartOfAccountId" @change="handleChartOfAccountChange">
+                        <select v-model="selectedChartOfAccountId" @change="handleSearchAccounts">
                             <option v-for="item in coaOptions" :key="item.value" :value="item.value">
+                                {{ item.text }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Parent Account Code</label>
+                <div class="control">
+                    <div class="select is-fullwidth">
+                        <select v-model="parentCode" @change="handleSearchAccounts">
+                            <option value=''>-- No Parent (Root) --</option>
+                            <option v-for="item in rootParentOptions" :key="item.value" :value="item.value">
                                 {{ item.text }}
                             </option>
                         </select>
@@ -171,7 +206,7 @@ async function handleSubmit() {
                             <label class="label">Parent Account</label>
                             <div class="control">
                                 <div class="select is-fullwidth">
-                                    <select v-model="form.parentId">
+                                    <select v-model="form.parentId" @change="handleParentAccountChange">
                                         <option :value="null">-- No Parent (Root) --</option>
                                         <option v-for="p in parentOptions" :key="p.value" :value="p.value">
                                             {{ p.text }}
@@ -226,7 +261,6 @@ async function handleSubmit() {
                     </footer>
                 </div>
             </div>
-
         </div>
     </section>
 </template>

@@ -2,10 +2,12 @@
 using Dev.Module.Auth.Application.Interfaces.Persistence;
 using Dev.Module.Auth.Domain.Entities;
 
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Dev.Module.Auth.Application.UseCases.Roles.Commands;
 
-public class CreateRoleCommand : IRequest<Guid>
+public record CreateRoleCommand : IRequest<Guid>
 {
     public string Name { get; set; } = string.Empty;
     public bool IsSystemRole { get; set; } = false;
@@ -41,6 +43,8 @@ internal class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Gui
     }
     public async Task<Guid> HandleAsync(CreateRoleCommand request, CancellationToken cancellationToken)
     {
+        await ValidateAndThrow(request);
+
         var role = new Role
         {
             Id = Guid.NewGuid(),
@@ -52,5 +56,14 @@ internal class CreateRoleCommandHandler : IRequestHandler<CreateRoleCommand, Gui
         await _context.Roles.AddAsync(role, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         return role.Id;
+    }
+
+    private async Task ValidateAndThrow(CreateRoleCommand request)
+    {
+        var isDuplicate = await _context.Roles.AnyAsync(c => c.Name.ToLower() == request.Name.ToLower());
+        if (isDuplicate)
+            {
+                throw new InvalidOperationException($"User Role with name '{request.Name}' already exists.");
+            }
     }
 }

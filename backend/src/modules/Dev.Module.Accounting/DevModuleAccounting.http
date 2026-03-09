@@ -2,7 +2,7 @@
 @timeout = 600000
 
 ### Script
-GET {{HostAddress}}/home
+GET {{HostAddress}}/home/dev202602
 Accept: application/json
 
 ### Create Chart of Account
@@ -24,7 +24,7 @@ Accept: application/json
 
 {
   "Id": "1dd4e245-8ffd-45d3-826c-a89e869c791e",
-  "Code": "personal",   
+  "Code": "personal",
   "Name": "Kyle COA Updated",
   "IsActive": true,
   "DisplayOrder": 3

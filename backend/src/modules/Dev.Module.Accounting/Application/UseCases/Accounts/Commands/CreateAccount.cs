@@ -15,8 +15,8 @@ public static class CreateAccount
     {
         public Guid Id { get; set; }
         [Required]
-        public Guid ChartOfAccountId { get; set; }        
-        public Guid? ParentId { get; set; } 
+        public Guid ChartOfAccountId { get; set; }
+        public Guid? ParentId { get; set; }
         [Required]
         public string Code { get; set; } = string.Empty;
         [Required]

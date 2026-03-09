@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dev.Module.Auth.Application.UseCases.Roles.Queries;
 
-public class GetRolesQuery : IRequest<List<RoleDto>>
+public record GetRolesQuery : IRequest<List<RoleDto>>
 {
 
 }

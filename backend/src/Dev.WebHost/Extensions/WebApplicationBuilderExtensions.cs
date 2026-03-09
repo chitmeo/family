@@ -4,7 +4,6 @@ using System.Configuration;
 using Dev.Module.Accounting;
 using Dev.Module.Auth;
 using Dev.Module.Bible;
-using Dev.Module.HomeLover;
 using Dev.WebHost.Exceptions;
 using Dev.WebHost.Services;
 
@@ -24,7 +23,7 @@ internal static class WebApplicationBuilderExtensions
         builder.AddTimeouts();
 
         // Bind DataConnectionOptions from appsettings.json
-        var dataConnectionOptions = builder.Configuration
+        DataConnectionOptions? dataConnectionOptions = builder.Configuration
             .GetSection("DataConnection")
             .Get<DataConnectionOptions>();
 
@@ -51,7 +50,6 @@ internal static class WebApplicationBuilderExtensions
         builder.Services.AddAccountingModule(builder);
         builder.Services.AddAuthModule(builder);
         builder.Services.AddBibleModule(builder);
-        builder.Services.AddHomeLoverModule(builder);
         builder.Services.AddMediator();
         builder.Services.AddControllers();
 
@@ -64,11 +62,7 @@ internal static class WebApplicationBuilderExtensions
 
     private static void AddCORS(this WebApplicationBuilder builder)
     {
-        var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
-
-        if (allowedOrigins == null)
-            throw new ConfigurationErrorsException("Missing AllowedOrigins configuration");
-
+        string[] allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>() ?? throw new ConfigurationErrorsException("Missing AllowedOrigins configuration");
         builder.Services.AddCors(options =>
         {
             options.AddDefaultPolicy(
@@ -85,7 +79,7 @@ internal static class WebApplicationBuilderExtensions
     private static void AddTimeouts(this WebApplicationBuilder builder)
     {
         // Get Kestrel configuration section
-        var kestrelConfig = builder.Configuration.GetSection("Kestrel:Limits");
+        IConfigurationSection kestrelConfig = builder.Configuration.GetSection("Kestrel:Limits");
 
         if (kestrelConfig.Exists()) // Check if the section exists
         {

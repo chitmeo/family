@@ -15,7 +15,4 @@ public class Account
     /// </summary>
     public string AccountType { get; set; } = string.Empty;
     public bool IsActive { get; set; } = true;
-
-    public ICollection<Journal> DebitJournals { get; internal set; } = new List<Journal>();
-    public ICollection<Journal> CreditJournals { get; internal set; } = new List<Journal>();
 }

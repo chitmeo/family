@@ -5,7 +5,7 @@ using Dev.Module.Auth.Domain.Entities;
 
 namespace Dev.Module.Auth.Application.UseCases.Roles.Commands;
 
-public class UpdateRoleCommand : IRequest<Guid>
+public record UpdateRoleCommand : IRequest<Guid>
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;

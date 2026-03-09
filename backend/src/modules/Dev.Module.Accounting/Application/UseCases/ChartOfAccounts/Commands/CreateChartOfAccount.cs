@@ -41,15 +41,14 @@ public static class CreateChartOfAccount
             await ValidateAndThrow(request);
 
             var chartOfAccount = new ChartOfAccount()
-            {
-                Id = Guid.NewGuid(),
-            
+            {            
                 Code = request.Code,
                 Name = request.Name,
                 IsActive = request.IsActive,
                 DisplayOrder = request.DisplayOrder
             };
             await _context.ChartOfAccounts.AddAsync(chartOfAccount, cancellationToken);
+            //TODO: make sure alway has only one Joural Book is active.
             await _context.SaveChangesAsync(cancellationToken);
             return chartOfAccount.Id;
         }

@@ -9,7 +9,7 @@ namespace Dev.Module.Accounting.Application.UseCases.ChartOfAccounts.Commands;
 
 public static class UpdateChartOfAccount
 {
-    public sealed class Command : IRequest<int>
+    public sealed record Command : IRequest<int>
     {
         public Guid Id { get; set; }
 
@@ -51,6 +51,7 @@ public static class UpdateChartOfAccount
             entity.Name = request.Name;
             entity.IsActive = request.IsActive;
             entity.DisplayOrder = request.DisplayOrder;
+
             return await _context.SaveChangesAsync(cancellationToken);
         }
 

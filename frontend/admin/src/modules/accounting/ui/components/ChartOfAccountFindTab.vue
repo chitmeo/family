@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useChartOfAccount } from '@/modules/accounting/composables/useChartOfAccount';
+import { useChartOfAccount } from '@/modules/accounting/composables';
 import type { ChartOfAccount } from '@/modules/accounting/types/ChartOfAccount';
 
 const { searchCOA, setChartOfAccount, listChartOfAccounts, activeTab } = useChartOfAccount();

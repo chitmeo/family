@@ -14,9 +14,9 @@ internal class DevFileProvider : PhysicalFileProvider, IDevFileProvider
         : base(File.Exists(webHostEnvironment.ContentRootPath) ? Path.GetDirectoryName(webHostEnvironment.ContentRootPath)! : webHostEnvironment.ContentRootPath)
     {
 
-        WebRootPath = File.Exists(webHostEnvironment.WebRootPath)
-            ? Path.GetDirectoryName(webHostEnvironment.WebRootPath)
-            : webHostEnvironment.WebRootPath;
+        WebRootPath = File.Exists(webHostEnvironment.WebRootPath ?? string.Empty)
+            ? Path.GetDirectoryName(webHostEnvironment.WebRootPath) ?? string.Empty
+            : webHostEnvironment.WebRootPath ?? string.Empty;
     }
 
     #endregion
@@ -329,7 +329,7 @@ internal class DevFileProvider : PhysicalFileProvider, IDevFileProvider
 
     #region Properties
 
-    public string WebRootPath { get; }
+    public string WebRootPath { get; } = string.Empty;
 
     #endregion
 }

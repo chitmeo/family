@@ -1,3 +1,5 @@
 export * from './Account'
 export * from './ChartOfAccount'
-export * from './Journal'
+export * from './JournalBook'
+export * from './JournalEntry'
+export * from './JournalTemplate'

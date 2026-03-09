@@ -5,7 +5,7 @@ using Dev.Module.Auth.Domain.Entities;
 
 namespace Dev.Module.Auth.Application.UseCases.Roles.Commands;
 
-public class DeleteRoleCommand : IRequest<bool>
+public record DeleteRoleCommand : IRequest<bool>
 {
     public Guid Id { get; set; }
 }

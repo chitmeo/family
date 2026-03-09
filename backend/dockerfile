@@ -1,0 +1,26 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /src
+
+# Copy only necessary files instead of everything
+COPY ["src/Dev.WebHost/Dev.WebHost.csproj", "src/Dev.WebHost/"]
+COPY ["src/", "src/"]
+
+RUN dotnet restore src/Dev.WebHost/Dev.WebHost.csproj
+
+RUN dotnet publish src/Dev.WebHost/Dev.WebHost.csproj -c Release -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
+WORKDIR /app
+
+# Create a non-root user
+RUN groupadd -r appuser && useradd -r -g appuser appuser
+
+COPY --from=build /app/publish .
+
+# Change ownership to non-root user
+RUN chown -R appuser:appuser /app
+
+# Switch to non-root user
+USER appuser
+
+ENTRYPOINT ["dotnet", "Dev.WebHost.dll"]
