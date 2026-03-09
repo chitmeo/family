@@ -1,5 +1,12 @@
-bin/
-obj/
-.git
-.gitignore
-node_modules
+**/.git
+**/.vs
+**/.vscode
+**/bin
+**/obj
+**/.env
+**/*.user
+**/.dockerignore
+**/docker-compose*
+**/Dockerfile*
+**/*.md
+**/secrets.json
